@@ -1,0 +1,13 @@
+body {
+  background-color: grey;
+}
+h3 {
+  text-align: center;
+}
+.button {
+  background-color: #ececec;
+  padding: 25px 40px;
+  font-size: 20px;
+  margin-left: 100px;
+  margin-top: 100px;
+}
