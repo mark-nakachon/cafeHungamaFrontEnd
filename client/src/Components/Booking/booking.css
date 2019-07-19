@@ -1,0 +1,22 @@
+.ant-card-body {
+  background-color: aliceblue;
+}
+.ant-select-selection--multiple .ant-select-selection__choice {
+  background-color: cornsilk;
+}
+.type1 {
+  color: #f56a00;
+  background-color: #fde3cf;
+}
+
+.type2 {
+  background-color: teal;
+}
+
+.ant-card-head {
+  background-color: burlywood;
+}
+.weekanalysis {
+  text-align: center;
+  text-shadow: 0ch;
+}
