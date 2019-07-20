@@ -6,7 +6,7 @@ import Booking from "../Components/Booking/booking";
 import Coupon from "../Components/Coupon/Coupon";
 import Dashboard from "../Components/Dashboard/Dashboard";
 import Notifications from "../Components/Notification/Notification";
-import Payment from "../Components/Payment/Payment";
+import Payment from "../Components/Payment/PaymentsHistory";
 import Profile from "../Components/Profile/ClientProfile";
 import Support from "../Components/Support/App";
 import Venue from "../Components/Venue/Venue";

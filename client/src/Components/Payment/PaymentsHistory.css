@@ -1,0 +1,21 @@
+
+
+.details{
+   padding: 1em;
+   border: none;
+   width: 400px;
+   box-shadow: 0 4px 8px 0 rgba(7, 155, 241, 0.274);
+   margin:1em;
+   background: aliceblue;
+}
+
+.details div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: "50%";
+    padding: 5px;
+}
+.transactionTable{
+    margin: 0.51%;
+}
