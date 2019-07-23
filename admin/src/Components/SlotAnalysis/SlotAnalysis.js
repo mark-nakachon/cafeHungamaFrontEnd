@@ -29,22 +29,26 @@ class SlotAnalysis extends React.Component {
     ],
     data: []
   };
-  disabledDate(current) {
-    return current > moment(current).startOf("day");
-  }
+  disabledDate = current => {
+    return current > moment().endOf("day");
+  };
   render() {
     return (
       <div>
-        Date :<DatePicker disabledDate={this.disabledDate} />
-        &nbsp;&nbsp; Time Slot :&nbsp;
+        Date :&nbsp;&nbsp;
+        <DatePicker disabledDate={this.disabledDate} />
+        &nbsp;&nbsp; Time Slot : &nbsp;
         <Select placeholder="Please select" defaultValue="24">
           {children}
         </Select>
+        <br />
+        <br />
         <Table
           dataSource={this.state.data}
           columns={this.state.columns}
           pagination={false}
           size="medium"
+          bordered
         />
       </div>
     );
