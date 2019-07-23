@@ -75,7 +75,7 @@ class RouterApp extends React.Component {
                 <Link to="/superadmin" />
               </Menu.Item>
               <Menu.Item key="8">
-                <Icon type="solution" />
+              <Icon type="clock-circle" />
                 <span>Slot Analysis</span>
                 <Link to="/slotanalysis" />
               </Menu.Item>

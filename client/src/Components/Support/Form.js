@@ -1,58 +1,84 @@
 import React from "react";
 class Form extends React.Component {
+  state = {
+    issue_subject: "",
+    issue_comment: "",
+    issue_explanation: "",
+    immediate_contact: ""
+  };
+  handleInputChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+  handleFormSubmit = e => {
+    e.preventDefault();
+    const data = [];
+    data.push({
+      issue_subject: this.state.issue_subject,
+      issue_comment: this.state.issue_comment,
+      issue_explanation: this.state.issue_explanation,
+      immediate_contact: this.state.immediate_contact
+    });
+    this.props.handleFormSubmit(data);
+    this.setState({
+      issue_subject: "",
+      issue_comment: "",
+      issue_explanation: "",
+      immediate_contact: ""
+    });
+  };
   render() {
     return (
       <div id="Form">
-        <h1>
-          <b style={{ color: "blue" }}>Add a new issue:</b>
-        </h1>
-        <form onSubmit={this.props.handleFormSubmit}>
-          <label htmlFor="subject">
-            Issue_Subject: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <h3>Add a new item to the table:</h3>
+        <form onSubmit={this.handleFormSubmit}>
+          <label htmlFor="issue_subject">
+            Issue Subject: &nbsp;&nbsp;
             <input
-              id="subject"
-              value={this.props.newSubject}
+              id="issue_subject"
+              value={this.state.issue_subject}
               type="text"
-              name="subject"
-              onChange={this.props.handleInputChange}
-              required="true"
+              name="issue_subject"
+              onChange={this.handleInputChange}
             />
           </label>
-          <label for="explanation">
-            Issue_Explanation:&nbsp;
+          &nbsp;&nbsp;
+          <label htmlFor="issue_explanation">
+            Issue Explanation: &nbsp;&nbsp;
             <input
-              id="explanation"
-              value={this.props.newExplanation}
+              id="issue_explanation"
+              value={this.state.issue_explanation}
               type="text"
-              name="explanation"
-              onChange={this.props.handleInputChange}
-              required="true"
+              name="issue_explanation"
+              onChange={this.handleInputChange}
             />
           </label>
-          <label for="comment">
-            Issue_Comment:&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;
+          <label htmlFor="issue_comment">
+            Issue Comment: &nbsp;&nbsp;
             <input
-              id="comment"
-              value={this.props.newComment}
+              id="issue_comment"
+              value={this.state.issue_comment}
               type="text"
-              name="comment"
-              onChange={this.props.handleInputChange}
-              required="true"
+              name="issue_comment"
+              onChange={this.handleInputChange}
             />
           </label>
-          <label for="contact">
-            Immediate_Contact
+          &nbsp;&nbsp;
+          <label htmlFor="immediate_contact">
+            Immediate Contact: &nbsp;&nbsp;
             <input
-              id="contact"
-              value={this.props.newContact}
+              id="immediate_contact"
+              value={this.state.immediate_contact}
               type="text"
-              name="contact"
-              onChange={this.props.handleInputChange}
-              required="true"
+              name="immediate_contact"
+              onChange={this.handleInputChange}
             />
           </label>
+          &nbsp;&nbsp;
           <button type="submit" value="Save">
-            Add Item
+            Add Issue
           </button>
         </form>
       </div>

@@ -5,9 +5,9 @@ import React from "react";
 //make a state for called response for accept and decline and pass that as parameter in axios.post
 class Tab extends React.Component {
   handleDelete = vouchername => {
-    const columns = [...this.state.columns];
+    const data = [...this.state.data];
     this.setState({
-      columns: columns.filter(item => item.vouchername !== vouchername)
+      data: data.filter(item => item.vouchername !== vouchername)
     });
   };
 
@@ -17,7 +17,8 @@ class Tab extends React.Component {
       columns: [
         {
           title: "Voucher Name",
-          dataIndex: "vouchername"
+          dataIndex: "vouchername",
+          key: "vouchername"
         },
         {
           title: "Voucher Amount",
@@ -43,16 +44,26 @@ class Tab extends React.Component {
               </Popconfirm>
             ) : null
         }
-      ]
+      ],
+      data: []
     };
   }
-
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.items !== this.props.items) {
+      this.setState({
+        data: [this.props.items, ...this.state.data]
+      });
+    }
+  }
   render() {
-    const data = this.props.items;
-    console.log(data);
     return (
       <div>
-        <Table columns={this.state.columns} dataSource={data} bordered />
+        <Table
+          columns={this.state.columns}
+          dataSource={this.state.data}
+          bordered
+          rowKey="vouchername"
+        />
       </div>
     );
   }
