@@ -1,0 +1,22 @@
+.event-card{
+    float: left;
+    width: 370px; /* three containers (use 25% for four, and 50% for two, etc) */
+    padding: 15px; /* if you want space between the images */
+    margin:auto;
+    height: 200px;;
+    transition: transform .4s;
+}
+.event-card:hover{
+    transform: scale(1.2) ;
+}
+.ant-card-head{
+    background-color:#0a3478 !important;
+    color:white !important;
+}
+.ant-card-body{    
+    padding: 10px !important ;  
+    background: aliceblue !important; 
+}
+.ant-card{
+    background: aliceblue;
+}
