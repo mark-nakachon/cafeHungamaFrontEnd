@@ -7,55 +7,21 @@ class App extends React.Component {
     super();
 
     this.state = {
-      subject: "",
-      explanation: "",
-      comment: "",
-      contact: "",
       items: []
     };
   }
 
-  handleFormSubmit = e => {
-    e.preventDefault();
-    let data = [...this.state.items];
-
-    data.push({
-      subject: this.state.subject,
-      explanation: this.state.explanation,
-      comment: this.state.comment,
-      contact: this.state.contact
-    });
-    console.log(data);
+  handleFormSubmit = props => {
+    console.log(props);
     this.setState({
-      items: data,
-      subject: "",
-      explanation: "",
-      comment: "",
-      contact: ""
+      items: props[0]
     });
+    console.log(this.state.items);
   };
-
-  handleInputChange = e => {
-    let input = e.target;
-    let name = e.target.name;
-    let value = input.value;
-
-    this.setState({
-      [name]: value
-    });
-  };
-
   render() {
     return (
       <div className="App">
-        <Form
-          handleFormSubmit={this.handleFormSubmit}
-          handleInputChange={this.handleInputChange}
-          newSubject={this.state.subject}
-          newExplanation={this.state.explanation}
-          newComment={this.state.comment}
-          newContact={this.state.contact}
-        />
+        <Form handleFormSubmit={this.handleFormSubmit} />
         <br />
         <Table items={this.state.items} />
       </div>
