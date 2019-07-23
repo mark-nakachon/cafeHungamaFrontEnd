@@ -1,12 +1,27 @@
 import React from "react";
-import { Table, Input, Form } from "antd";
+import { Table, Input, Form, Row, Col } from "antd";
 //import WeekPicker from "./WeekPicker";
 //import moment from "moment";
 const data = [];
+let startTime = 12;
+let endTime = 1;
+let startMeridiem = "am";
+let endMeridiem = "am";
 for (let i = 0; i < 24; i++) {
+  if (startTime === 13) {
+    startTime = 1;
+  }
+  if (endTime === 12) {
+    endMeridiem = "pm";
+  }
+  if (endTime === 13) {
+    endTime = 1;
+    endMeridiem = "pm";
+    startMeridiem = "pm";
+  }
   data.push({
     key: i.toString(),
-    timing: `${i}-${i + 1}`,
+    timing: `${startTime}${startMeridiem} - ${endTime}${endMeridiem}`,
     rowprice: 0,
     monday: 0,
     tuesday: 0,
@@ -16,6 +31,8 @@ for (let i = 0; i < 24; i++) {
     saturday: 0,
     sunday: 0
   });
+  startTime++;
+  endTime++;
 }
 const selectedWeek = [];
 const EditableContext = React.createContext();
@@ -72,55 +89,48 @@ class EditableTable extends React.Component {
         {
           title: "Time- Slot",
           dataIndex: "timing",
-          width: "10%",
+          width: "15%",
           editable: true
         },
         {
           title: "Row Price",
           dataIndex: "rowprice",
-          width: "10%",
+
           editable: true
         },
         {
-          title: "Sunday" ,
+          title: "Sunday",
           dataIndex: "sunday",
-          width: "10%",
           editable: true
         },
         {
-          title: "Monday" ,
+          title: "Monday",
           dataIndex: "monday",
-          width: "10%",
           editable: true
         },
         {
           title: "Tuesday",
           dataIndex: "tuesday",
-          width: "10%",
           editable: true
         },
         {
-          title: "Wednesday" ,
+          title: "Wednesday",
           dataIndex: "wednesday",
-          width: "10%",
           editable: true
         },
         {
-          title: "Thursday" ,
+          title: "Thursday",
           dataIndex: "thursday",
-          width: "10%",
           editable: true
         },
         {
-          title: "Friday" ,
+          title: "Friday",
           dataIndex: "friday",
-          width: "10%",
           editable: true
         },
         {
-          title: "Saturday" ,
+          title: "Saturday",
           dataIndex: "saturday",
-          width: "10%",
           editable: true
         }
       ]
@@ -165,18 +175,21 @@ class EditableTable extends React.Component {
     });
     //console.log(this.state.selectedWeek);
     return (
-      <div>
-        <EditableContext.Provider value={this.props.form}>
-          <Table
-            components={components}
-            bordered
-            dataSource={this.state.data}
-            columns={columns}
-            rowClassName="editable-row"
-            pagination={false}
-          />
-        </EditableContext.Provider>
-      </div>
+      <Row>
+        <Col lg={{ span: 18 }}>
+          <EditableContext.Provider value={this.props.form}>
+            <Table
+              components={components}
+              bordered
+              dataSource={this.state.data}
+              columns={columns}
+              rowClassName="editable-row"
+              pagination={false}
+            />
+          </EditableContext.Provider>
+        </Col>
+        <Col lg={{ span: 6 }} />
+      </Row>
     );
   }
 }
