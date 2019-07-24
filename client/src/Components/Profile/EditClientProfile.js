@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form,  Input, Button } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
-
+import API from '../../api/API';
 
 class EditClientProfileForm extends React.Component {
 
@@ -12,6 +12,8 @@ class EditClientProfileForm extends React.Component {
       data:this.props.data        // data variable contains jason before and after Edit
    }
   onEdit=value=>{                    // This function  will Call the API (Post request)
+    console.log(value)
+    API.put('/client/5d09eb072f965c7314727e4b/profile',value)
     alert("Submitted",value);
   }
 
@@ -19,9 +21,7 @@ class EditClientProfileForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
-        this.setState({data:values})
-        this.onEdit(values)
+        this.setState({data:values},()=>this.onEdit(this.state.data))
       }
       //alert(this.state.data)
       // console.log(this.state.data)
@@ -61,16 +61,16 @@ class EditClientProfileForm extends React.Component {
               {getFieldDecorator("alternatephonenumber")(<Input />)}
             </FormItem>
             <FormItem label="Address">
-              {getFieldDecorator('address.line', {
+              {getFieldDecorator('line', {
                 rules: [
                   {
                     required: true,
                     message: 'Address is Required',
                   }
                 ]
-              })(<Input />)}
-              {getFieldDecorator('address.city')(<Input placeholder="City"/>)}
-              {getFieldDecorator('address.state', {
+              })(<Input placeholder="Line"/>)}
+              {getFieldDecorator('city')(<Input placeholder="City"/>)}
+              {getFieldDecorator('state', {
                 rules: [
                   {
                     required: true,
@@ -78,7 +78,7 @@ class EditClientProfileForm extends React.Component {
                   }
                 ]
               })(<Input Input placeholder="State"/>)}
-              {getFieldDecorator('address.pincode', {
+              {getFieldDecorator('pincode', {
                 rules: [
                   {
                     required: true,

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form,  Input, Button } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
-
+import API from '../../api/API';
 
 class AddBankDetailsForm extends React.Component {
    state={
@@ -9,15 +9,23 @@ class AddBankDetailsForm extends React.Component {
    }
   onEdit=data=>{                    // This function will Call the API (Post request)
     console.log(data)
-    alert('Bank Details Added')
+    API.post('/client/5d368a7f4a915e2c58f34952/bankdetails',{
+      bank:data.bank,
+      account_no:data.account_no,
+      branch:data.branch
+    }).then(function (response) {
+      console.log(response);
+      alert('Bank Details Added')
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
   log = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
-        this.setState({data:values})
-        this.onEdit(values)
+        this.setState({data:values},()=>this.onEdit(this.state.data) )
       }
     });
    
@@ -29,7 +37,7 @@ class AddBankDetailsForm extends React.Component {
       <div>
          <Form layout="vertical" onSubmit={this.log} >
             <FormItem label="Bank" >
-              {getFieldDecorator("bankname" ,{
+              {getFieldDecorator("bank" ,{
                 rules: [
                   {
                     required: true,
@@ -39,7 +47,7 @@ class AddBankDetailsForm extends React.Component {
               })(<Input />)}
             </FormItem>
             <FormItem label="Account Number">
-              {getFieldDecorator("accountnumber", {
+              {getFieldDecorator("account_no", {
                 rules: [
                   {
                     required: true,

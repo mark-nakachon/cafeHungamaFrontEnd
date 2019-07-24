@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, Icon, Button, Modal } from "antd";
 import EditClientProfile from "./EditClientProfile";
+import API from '../../api/API';
 
 class ClientEditPage extends React.Component {
   state = {
@@ -17,11 +18,12 @@ class ClientEditPage extends React.Component {
     });
   };
 
-  handleOk = () => {
+  handleClose = () => {
     this.setState({
       visible: false,
       confirmLoading: false
     });
+    document.location.reload(true);
   };
 
   render() {
@@ -38,7 +40,7 @@ class ClientEditPage extends React.Component {
           confirmLoading={confirmLoading}
           onCancel={this.handleCancel}
           footer={[
-            <Button key="submit" type="primary" onClick={this.handleOk}>
+            <Button key="submit" type="primary" onClick={this.handleClose}>
               Done
             </Button>
           ]}
@@ -50,26 +52,41 @@ class ClientEditPage extends React.Component {
   }
 }
 
-const RequestClientDetails = () => {
-  //This function for API
 
-  return {
-    firstname: "Ashish",
-    lastname: "Mittal",
-    phonenumber: "9988776655",
-    alternatenumber: null,
-    email: "ashish@hotmail.com",
-    address: {
-      line: "building 54 MATAVALA Chock",
-      city: "Rohini",
-      state: "Delhi",
-      pincode: "110050"
-    },
-    registeredvenues: "5"
-  };
-};
-const clientProfile = props => {
-  let data = RequestClientDetails(); // This data variable will accept the jason data from the API
+class clientProfile extends React.Component{
+  state={
+    data:{}
+  }
+  componentDidMount(){
+    this.RequestClientDetails()
+  }
+  RequestClientDetails = async () => {
+    //This function for API
+    const response = await API.get('https://cafehungama.herokuapp.com/client/5d368a7f4a915e2c58f34952/profile')
+    console.log(response.data)
+    if(response.data==null||response.data===""){
+      this.setState({
+        data:{
+        firstname: "EnterName",
+        lastname: "",
+        contact: "Fill Details",
+        alternatenumber: null,
+        email: "Fill Details",
+        line1: "Fill Details",
+        city: "",
+        state: "",
+        pincode: "",
+        registeredvenues: "Can't Tell"
+        }
+      })
+    }
+    else{
+      this.setState({data:response.data})
+      console.log(response)
+    }
+  }
+  render(){
+   let data=this.state.data
   return (
     <div style={{}}>
       <Card
@@ -86,7 +103,7 @@ const clientProfile = props => {
           <Icon type="user" /> {data.firstname} {data.lastname}
         </h3>
         <h3>
-          <Icon type="phone" /> {data.phonenumber}
+          <Icon type="phone" /> {data.contact}
         </h3>
         <h3>
           <Icon type="phone" /> {data.alternateNumber}(Alternate)
@@ -98,38 +115,14 @@ const clientProfile = props => {
           <Icon type="appstore" /> Registered Venues : {data.registeredvenues}
         </h3>
         <h3>
-          <Icon type="home" /> {data.address.line},{data.address.city},
-          {data.address.state}-{data.address.pincode}
+          <Icon type="home" /> {data.line1},{data.city},
+          {data.state}-{data.pincode}
         </h3>
         <ClientEditPage data={data} />
       </Card>
     </div>
   );
 };
-
-// const clientProfile = (props) =>{
-//     return (
-//         <div className="container-client-profile">
-//             <h1>Profile</h1>
-//             <div>
-//                 <p>  <h3>First Name : </h3>{props.data.FirstName}</p>
-//                 <p>  <h3>Last Name : </h3>{props.data.LastName}</p>
-//             </div>
-//                 <p>  <h3>Phone Number : </h3>{props.data.PhoneNumber}</p>
-//                 <p>  <h3>Alternate Number : </h3>{props.data.AlternateNumber}</p>
-//             <div>
-//                 <p>  <h3>Email : </h3>{props.data.Email}</p>
-//             </div>
-//             <div>
-//                 <p>  <h3>Address : </h3>{props.data.Address.Line} {props.data.Address.City} {props.data.Address.State}</p>
-//             </div>
-//             <div>
-//                 <p>  <h3>Total Registered Venues : </h3>{props.data.RegisteredValue}</p>
-//                 <p>  <h3>Pincode : </h3>{}</p>
-//             </div>
-
-//         </div>
-//     )
-// }
+}
 
 export default clientProfile;
