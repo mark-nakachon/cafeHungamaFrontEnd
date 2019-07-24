@@ -5,16 +5,14 @@ import API from '../../api/API';
 
 class EditClientProfileForm extends React.Component {
 
-
- 
- 
    state={
       data:this.props.data        // data variable contains jason before and after Edit
    }
-  onEdit=value=>{                    // This function  will Call the API (Post request)
+  onEdit=async value=>{                    // This function  will Call the API (Post request)
     console.log(value)
-    API.put('/client/5d09eb072f965c7314727e4b/profile',value)
+    const response=await API.put('/client/5d09eb072f965c7314727e4b/profile',value)
     alert("Submitted",value);
+    console.log(response)
   }
 
   log = e => {
@@ -35,7 +33,7 @@ class EditClientProfileForm extends React.Component {
       <div>
          <Form layout="horizontal" onSubmit={this.log} >
             <FormItem label="First Name" >
-              {getFieldDecorator("firstname", {
+              {getFieldDecorator("firstName", {
                 rules: [
                   {
                     required: true,
@@ -45,10 +43,10 @@ class EditClientProfileForm extends React.Component {
               })(<Input />)}
             </FormItem>
             <FormItem label="Last Name">
-              {getFieldDecorator("lastname")(<Input />)}
+              {getFieldDecorator("lastName")(<Input />)}
             </FormItem>
             <FormItem label="Phone Number">
-              {getFieldDecorator("phonenumber", {
+              {getFieldDecorator("contact", {
                 rules: [
                   {
                     required: true,
@@ -58,10 +56,10 @@ class EditClientProfileForm extends React.Component {
               })(<Input />)}
             </FormItem>
             <FormItem label="Alternate Phone Number">
-              {getFieldDecorator("alternatephonenumber")(<Input />)}
+              {getFieldDecorator("alternateContact")(<Input />)}
             </FormItem>
             <FormItem label="Address">
-              {getFieldDecorator('line', {
+              {getFieldDecorator('line1Add', {
                 rules: [
                   {
                     required: true,
@@ -69,6 +67,7 @@ class EditClientProfileForm extends React.Component {
                   }
                 ]
               })(<Input placeholder="Line"/>)}
+              {getFieldDecorator('line2Add')(<Input Input placeholder="Line 2"/>)}
               {getFieldDecorator('city')(<Input placeholder="City"/>)}
               {getFieldDecorator('state', {
                 rules: [
@@ -78,14 +77,6 @@ class EditClientProfileForm extends React.Component {
                   }
                 ]
               })(<Input Input placeholder="State"/>)}
-              {getFieldDecorator('pincode', {
-                rules: [
-                  {
-                    required: true,
-                    message: 'Pincode is Required',
-                  }
-                ]
-              })(<Input Input placeholder="Pincode"/>)}
             </FormItem>
             <FormItem label="Email">
               {getFieldDecorator('email', {

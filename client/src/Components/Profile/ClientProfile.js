@@ -26,7 +26,7 @@ class ClientEditPage extends React.Component {
     document.location.reload(true);
   };
 
-  render() {
+  render() {  
     const { visible, confirmLoading } = this.state;
     return (
       <div>
@@ -63,12 +63,11 @@ class clientProfile extends React.Component{
   RequestClientDetails = async () => {
     //This function for API
     const response = await API.get('https://cafehungama.herokuapp.com/client/5d368a7f4a915e2c58f34952/profile')
-    console.log(response.data)
     if(response.data==null||response.data===""){
       this.setState({
         data:{
-        firstname: "EnterName",
-        lastname: "",
+        firstName: "EnterName",
+        lastName: "",
         contact: "Fill Details",
         alternatenumber: null,
         email: "Fill Details",
@@ -82,7 +81,6 @@ class clientProfile extends React.Component{
     }
     else{
       this.setState({data:response.data})
-      console.log(response)
     }
   }
   render(){
@@ -100,7 +98,7 @@ class clientProfile extends React.Component{
         style={{ width: "90%", border: "solid 1px black", margin: "auto" }}
       >
         <h3>
-          <Icon type="user" /> {data.firstname} {data.lastname}
+          <Icon type="user" /> {data.firstName} {data.lastName}
         </h3>
         <h3>
           <Icon type="phone" /> {data.contact}
@@ -115,8 +113,8 @@ class clientProfile extends React.Component{
           <Icon type="appstore" /> Registered Venues : {data.registeredvenues}
         </h3>
         <h3>
-          <Icon type="home" /> {data.line1},{data.city},
-          {data.state}-{data.pincode}
+          <Icon type="home" /> {data.line1Add},{data.line2Add},{data.city},
+          {data.state}
         </h3>
         <ClientEditPage data={data} />
       </Card>
