@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Icon, Button, Modal } from "antd";
+import { Card, Icon, Button, Modal,Spin } from "antd";
 import EditClientProfile from "./EditClientProfile";
 import API from '../../api/API';
 
@@ -23,7 +23,7 @@ class ClientEditPage extends React.Component {
       visible: false,
       confirmLoading: false
     });
-    document.location.reload(true);
+    this.props.updateProfile()
   };
 
   render() {  
@@ -55,14 +55,15 @@ class ClientEditPage extends React.Component {
 
 class clientProfile extends React.Component{
   state={
-    data:{}
+    data:{venues:[]},
+    loading:true
   }
   componentDidMount(){
     this.RequestClientDetails()
   }
   RequestClientDetails = async () => {
     //This function for API
-    const response = await API.get('https://cafehungama.herokuapp.com/client/5d368a7f4a915e2c58f34952/profile')
+    const response = await API.get('/client/5d368a7f4a915e2c58f34952/profile/')
     if(response.data==null||response.data===""){
       this.setState({
         data:{
@@ -75,13 +76,17 @@ class clientProfile extends React.Component{
         city: "",
         state: "",
         pincode: "",
-        registeredvenues: "Can't Tell"
-        }
+        venues:[]
+        },
+        loading:false
       })
     }
     else{
-      this.setState({data:response.data})
+      this.setState({data:response.data,loading:false})
     }
+  }
+  updateProfile=()=>{
+    this.RequestClientDetails();
   }
   render(){
    let data=this.state.data
@@ -97,6 +102,9 @@ class clientProfile extends React.Component{
         }}
         style={{ width: "90%", border: "solid 1px black", margin: "auto" }}
       >
+      <div style={{textAlign:"center"}}>
+          <Spin spinning={this.state.loading} size="large" tip="Loading"/>
+      </div>
         <h3>
           <Icon type="user" /> {data.firstName} {data.lastName}
         </h3>
@@ -104,19 +112,19 @@ class clientProfile extends React.Component{
           <Icon type="phone" /> {data.contact}
         </h3>
         <h3>
-          <Icon type="phone" /> {data.alternateNumber}(Alternate)
+          <Icon type="phone" /> {data.alternateContact}(Alternate)
         </h3>
         <h3>
           <Icon type="mail" /> {data.email}
         </h3>
         <h3>
-          <Icon type="appstore" /> Registered Venues : {data.registeredvenues}
+          <Icon type="appstore" /> Registered Venues : {data.venues.length}
         </h3>
         <h3>
           <Icon type="home" /> {data.line1Add},{data.line2Add},{data.city},
           {data.state}
         </h3>
-        <ClientEditPage data={data} />
+        <ClientEditPage data={data.id} updateProfile={this.updateProfile} />
       </Card>
     </div>
   );

@@ -10,7 +10,19 @@ class EditClientProfileForm extends React.Component {
    }
   onEdit=async value=>{                    // This function  will Call the API (Post request)
     console.log(value)
-    const response=await API.put('/client/5d09eb072f965c7314727e4b/profile',value)
+    let profile={
+      firstName:value.firstName,
+      lastName:value.lastName,
+      contact:value.contact,
+      alternateContact:value.alternateContact,
+      line1Add:value.line1Add,
+      line2Add:value.line2Add,
+      email:value.email
+      }
+    const response=await API.put('/client/5d368a7f4a915e2c58f34952/profile/',profile)
+    .catch(function (error) {
+      console.log(error);
+    });
     alert("Submitted",value);
     console.log(response)
   }

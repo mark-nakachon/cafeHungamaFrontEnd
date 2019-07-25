@@ -1,7 +1,7 @@
 import React from 'react'
 import 'antd/dist/antd.css';
 import './BankDetails.css'
-import { Card, Button,Modal } from 'antd';
+import { Card, Button,Modal,Spin } from 'antd';
 import AddBankDetails from './AddBankDetails';
 import API from '../../api/API';
 
@@ -27,7 +27,7 @@ import API from '../../api/API';
                 visible: false,
                 confirmLoading: false,
             });
-            window.location.reload();
+            this.props.detailsUpdated();
         };
         
         
@@ -78,21 +78,32 @@ import API from '../../api/API';
     }
     class BankDetails extends React.Component{
         state={
-            details:[]
+            details:[],
+            loading:true
         }
         componentDidMount(){
            this.getBankDetails();
         }
         getBankDetails=async ()=>{
             const response =await API.get('/client/5d368a7f4a915e2c58f34952/bankdetails')
-            this.setState({details:response.data})
+            this.setState({
+                details:response.data,
+                loading:false
+            })
+        }
+        detailsUpdated=()=>{
+            console.log("Fucku")
+            this.getBankDetails();
         }
         render(){
             return(
             <div>
             <Card title="Bank Details" headStyle={{border:"ridge 2px black",margin:"0"}} bodyStyle={{padding:"0"}} style={{ border:"solid 1px black",width: "55em",margin:"auto",textAlign:"center" }}>
             <div>
-                <EditBankPage/>
+                <EditBankPage detailsUpdated={this.detailsUpdated}/>
+            </div>
+            <div style={{textAlign:"center"}}>
+                <Spin spinning={this.state.loading} size="large" tip="Loading"/>
             </div>
                 {showBankDetails(this.state.details)}
             </Card>
