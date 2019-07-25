@@ -8,17 +8,15 @@ class AddBankDetailsForm extends React.Component {
       data: {}    // data variable contains jason after Edit
    }
   onEdit=data=>{                    // This function will Call the API (Post request)
-    console.log(data)
     API.post('/client/5d368a7f4a915e2c58f34952/bankdetails',{
       bank:data.bank,
       account_no:data.account_no,
       branch:data.branch
     }).then(function (response) {
-      console.log(response);
       alert('Bank Details Added')
     })
     .catch(function (error) {
-      console.log(error);
+      
     });
   }
   log = e => {

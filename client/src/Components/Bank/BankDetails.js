@@ -92,7 +92,6 @@ import API from '../../api/API';
             })
         }
         detailsUpdated=()=>{
-            console.log("Fucku")
             this.getBankDetails();
         }
         render(){
