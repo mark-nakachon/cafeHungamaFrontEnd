@@ -1,30 +1,39 @@
 import React from 'react'
 import { Form,  Input, Button } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
-
+import API from '../../api/API';
 
 class EditClientProfileForm extends React.Component {
 
-
- 
- 
    state={
       data:this.props.data        // data variable contains jason before and after Edit
    }
-  onEdit=value=>{                    // This function  will Call the API (Post request)
-    alert("Submitted",value);
+  onEdit=async value=>{                    // This function  will Call the API (Post request)
+    let profile={
+      firstName:value.firstName,
+      lastName:value.lastName,
+      contact:value.contact,
+      alternateContact:value.alternateContact,
+      line1Add:value.line1Add,
+      line2Add:value.line2Add,
+      email:value.email,
+      state:value.state,
+      city:value.city
+      }
+    // eslint-disable-next-line
+    const response=await API.put('/client/5d368a7f4a915e2c58f34952/profile/',profile)
+    .catch(function (error) {
+      alert("Update Failed")
+    });
+    alert("Submitted");
   }
 
   log = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
-        this.setState({data:values})
-        this.onEdit(values)
+        this.setState({data:values},()=>this.onEdit(this.state.data))
       }
-      //alert(this.state.data)
-      // console.log(this.state.data)
     });
    
   };
@@ -35,7 +44,7 @@ class EditClientProfileForm extends React.Component {
       <div>
          <Form layout="horizontal" onSubmit={this.log} >
             <FormItem label="First Name" >
-              {getFieldDecorator("firstname", {
+              {getFieldDecorator("firstName", {
                 rules: [
                   {
                     required: true,
@@ -45,10 +54,10 @@ class EditClientProfileForm extends React.Component {
               })(<Input />)}
             </FormItem>
             <FormItem label="Last Name">
-              {getFieldDecorator("lastname")(<Input />)}
+              {getFieldDecorator("lastName")(<Input />)}
             </FormItem>
             <FormItem label="Phone Number">
-              {getFieldDecorator("phonenumber", {
+              {getFieldDecorator("contact", {
                 rules: [
                   {
                     required: true,
@@ -58,19 +67,20 @@ class EditClientProfileForm extends React.Component {
               })(<Input />)}
             </FormItem>
             <FormItem label="Alternate Phone Number">
-              {getFieldDecorator("alternatephonenumber")(<Input />)}
+              {getFieldDecorator("alternateContact")(<Input />)}
             </FormItem>
             <FormItem label="Address">
-              {getFieldDecorator('address.line', {
+              {getFieldDecorator('line1Add', {
                 rules: [
                   {
                     required: true,
                     message: 'Address is Required',
                   }
                 ]
-              })(<Input />)}
-              {getFieldDecorator('address.city')(<Input placeholder="City"/>)}
-              {getFieldDecorator('address.state', {
+              })(<Input placeholder="Line"/>)}
+              {getFieldDecorator('line2Add')(<Input Input placeholder="Line 2"/>)}
+              {getFieldDecorator('city')(<Input placeholder="City"/>)}
+              {getFieldDecorator('state', {
                 rules: [
                   {
                     required: true,
@@ -78,14 +88,6 @@ class EditClientProfileForm extends React.Component {
                   }
                 ]
               })(<Input Input placeholder="State"/>)}
-              {getFieldDecorator('address.pincode', {
-                rules: [
-                  {
-                    required: true,
-                    message: 'Pincode is Required',
-                  }
-                ]
-              })(<Input Input placeholder="Pincode"/>)}
             </FormItem>
             <FormItem label="Email">
               {getFieldDecorator('email', {
