@@ -1,8 +1,27 @@
 import React from 'react';
-import {Form,InputNumber,Button,Upload,Icon,Checkbox,Row,Col,Input} from 'antd';
+import {Form,Button,Upload,Icon,Checkbox,Row,Col,Input} from 'antd';
 import './Modal.css';
 
 class Demo extends React.Component {
+  state ={
+    venueName:"",
+    venueContact:"",
+    city:"",
+    state:"",
+    pinCode:"",
+    noOfScreens: "",
+    line1:"",
+    country:"",
+    landmark:"",
+    eventType:"",
+    amenties:"",
+    image:""
+  }
+  onInputChange =e=>{
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -10,6 +29,22 @@ class Demo extends React.Component {
         console.log('Received values of form: ', values);
       }
     });
+    const data=[];
+    data.push({
+      venueName: this.state.venueName,
+      venueContact: this.state.venueContact,
+      city: this.state.city,
+      state: this.state.state,
+      line1: this.state.line1,
+      pinCode: this.state.pinCode,
+      noOfScreens: this.state.noOfScreens,
+      country: this.state.country,
+      landmark: this.state.landmark,
+      eventType: this.state.eventType,
+      amenties: this.state.amenties,
+      image: this.state.image
+    })
+    this.props.onSubmit(data);
   };
 
   normFile = e => {
@@ -38,11 +73,11 @@ class Demo extends React.Component {
                 message: 'Please input your name',
               },
             ],
-          })(<Input placeholder="Please input your name" />)}
+          })(<Input placeholder="Please input your name" required name="venueName" onChange={this.onInputChange} />)}
         </Form.Item>
       
         <Form.Item label="No of Screens">
-          {getFieldDecorator('input-number', { initialValue: 0 })(<InputNumber min={1} />)}
+              {getFieldDecorator('no-of-screen', { initialValue: 0 })(<Input pattern="[1-9]" min={1} name="noOfScreens" onChange={this.onInputChange}/>)}
         </Form.Item>
 
         <Form.Item label="Event Arrangement">
@@ -73,11 +108,7 @@ class Demo extends React.Component {
                 message: 'Please input line1',
               },
             ],
-          })(<Input placeholder="Please input your line 1" />)}
-        </Form.Item>
-
-        <Form.Item label="Line 2">
-        {getFieldDecorator('line2')(<Input placeholder="Please input your line 2" />)}
+        })(<Input placeholder="Please input your line 1" name="line1" onChange={this.onInputChange}/>)}
         </Form.Item>
 
         <Form.Item label="City">
@@ -88,7 +119,7 @@ class Demo extends React.Component {
                 message: 'Please input your city',
               },
             ],
-          })(<Input placeholder="Please input your city" />)}
+        })(<Input placeholder="Please input your city" name="city" onChange={this.onInputChange}/>)}
         </Form.Item>
 
         <Form.Item label="State">
@@ -99,7 +130,7 @@ class Demo extends React.Component {
                 message: 'Please input your state',
               },
             ],
-          })(<Input placeholder="Please input your state" />)}
+        })(<Input placeholder="Please input your state" name="state" onChange={this.onInputChange}/>)}
         </Form.Item>
 
         <Form.Item label="Country">
@@ -110,7 +141,7 @@ class Demo extends React.Component {
                 message: 'Please input your country',
               },
             ],
-          })(<Input placeholder="Please input your country" />)}
+        })(<Input placeholder="Please input your country" name="country" onChange={this.onInputChange}/>)}
         </Form.Item>
 
         <Form.Item label="Pin code">
@@ -121,7 +152,7 @@ class Demo extends React.Component {
                 message: 'Please input your pin code',
               },
             ],
-          })(<InputNumber maxLength={6} />)}
+          })(<Input pattern="[0-9]{6}" maxLength={6} name="pinCode" onChange={this.onInputChange}/>)}
         </Form.Item>
 
 
@@ -129,15 +160,15 @@ class Demo extends React.Component {
         {getFieldDecorator('landmark', {
             rules: [
               {
-                required: true,
+                required: false,
                 message: 'Please input landmark',
               },
             ],
-          })(<Input placeholder="Please input your landmark" />)}
+          })(<Input placeholder="Please input your landmark" name="landmark"/>)}
         </Form.Item>
 
         <Form.Item label="Phone no">
-          {getFieldDecorator('phone')(<InputNumber maxLength={10} />)}
+              {getFieldDecorator('phone')(<Input pattern="[1-9][0-9]{9}" maxLength={10} name="venueContact" required onChange={this.onInputChange}/>)}
         </Form.Item>
         </Col>
          <Col span={12}>

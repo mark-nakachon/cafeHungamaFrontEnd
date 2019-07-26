@@ -6,17 +6,17 @@ import Axios from "axios";
 class Venue extends Component {
   state = {
     visible: false,
-    visibleDetails: false
+    visibleDetails: false,
+    data : []
   };
 
   componentDidMount() {
     Axios.get(
-      `https://github.com/Manvityagi/events-backend/blob/master/routes/client/venue/CR_venue.js`
+      `https://cafehungama.herokuapp.com/client/5d09067224036b46e40f8d30/venues`
     ).then(res => {
       this.setState({ data: res.data });
     });
   }
-
   showModal = () => {
     this.setState({
       visible: true
@@ -43,6 +43,7 @@ class Venue extends Component {
   };
 
   renderData = venues => {
+    if(venues.length>0)
     return venues.map(venue => {
       return (
         <div style={{ alignContent: "center" }}>
@@ -59,16 +60,31 @@ class Venue extends Component {
             }}
             onClick={this.cardClicked}
           >
-            <h4>Name:</h4>
-            <h4>Address:</h4>
+            <h4>Name:{venue.venueName}</h4>
+            <h4>Address:{venue.line1},{venue.city},{venue.state}</h4>
             <h4>Ratings:</h4>
-            <h4>Screens:</h4>
-            <h4>Amenties:</h4>
+            <h4>Screens:{venue.noOfScreens}</h4>
+            <h4>Amenties:{venue.amenties}</h4>
           </Card.Grid>
         </div>
       );
     });
+    else
+    return <div>No Venues Registered</div>
   };
+  onSubmit=(props)=>{
+    console.log(props);
+    Axios.post(
+      `https://cafehungama.herokuapp.com/client/5d09067224036b46e40f8d30/venues`,props[0]
+    ).then(function (response) {
+      console.log(response);
+      console.log( response.data);
+    })
+    this.setState({
+      visible: false
+    });
+    
+  }
   showModalDetails = () => {
     this.setState({
       visibleDetails: true
@@ -89,7 +105,6 @@ class Venue extends Component {
     });
   };
   render() {
-    const data = [{ key: "0" }, { key: "1" }];
     return (
       <div>
         <Row>
@@ -103,7 +118,7 @@ class Venue extends Component {
                 backgroundColor: "#b51a12"
               }}
             >
-              {this.renderData(data)}
+              {this.renderData(this.state.data)}
             </Card>
           </Col>
           <Col span={12}>
@@ -118,7 +133,7 @@ class Venue extends Component {
               onOk={this.handleOk}
               onCancel={this.handleCancel}
             >
-              <AddVenue />
+              <AddVenue onSubmit={this.onSubmit}/>
             </Modal>
           </Col>
         </Row>
