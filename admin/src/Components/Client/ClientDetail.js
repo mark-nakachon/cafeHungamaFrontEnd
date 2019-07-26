@@ -1,9 +1,10 @@
 import React from "react";
 import "./ClientDetail.css";
-import { Card, Table, Row, Col, Modal,Icon } from "antd";
+import { Card, Table, Row, Col, Modal, Icon, Button } from "antd";
 import Venue from "./Venue";
 import AddVenue from './AddVenue';
 import axios from 'axios';
+import AddTransaction from "./AddTransaction";
 
 const columns = [
   {
@@ -59,23 +60,35 @@ class ClientDetail extends React.Component {
     bankname: "",
     branch: "",
     Accountno: "",
-    visible: false,
+    visible1: false,
+    visible2: false,
     data: [],
     profile:[],
     bankdetails:[],
     loading:true
   };
   
-  showModal = () => {
+  showModal1 = () => {
     this.setState({
-      visible: true
+      visible1: true
+    });
+  };
+  showModal2 = () => {
+    this.setState({
+      visible2: true
     });
   };
 
-  handleOk = e => {
+  handleOk1 = e => {
     console.log(e);
     this.setState({
-      visible: false
+      visible1: false
+    });
+  };
+  handleOk2 = e => {
+    console.log(e);
+    this.setState({
+      visible2: false
     });
   };
   componentDidMount(){
@@ -90,10 +103,16 @@ class ClientDetail extends React.Component {
       this.setState({ bankdetails: res.data, loading: false})
     });
   }
-  handleCancel = e => {
+  handleCancel1 = e => {
     console.log(e);
     this.setState({
-      visible: false
+      visible1: false
+    });
+  };
+  handleCancel2 = e => {
+    console.log(e);
+    this.setState({
+      visible2: false
     });
   };
   onSubmit = (props) => {
@@ -105,7 +124,7 @@ class ClientDetail extends React.Component {
       console.log(response.data);
     })
     this.setState({
-      visible: false
+      visible1: false
     });
 
   }
@@ -133,16 +152,16 @@ class ClientDetail extends React.Component {
               </Card>
             </Col>
             <Col span={3}>
-              <button class="button" onClick={this.showModal}>
+              <button class="button" onClick={this.showModal1}>
                 <Icon type="home" />
                 Add new Venue
             </button>
 
               <Modal
                 title="Add Venue"
-                visible={this.state.visible}
-                onOk={this.handleOk}
-                onCancel={this.handleCancel}
+                visible={this.state.visible1}
+                onOk={this.handleOk1}
+                onCancel={this.handleCancel1}
               >
                 <AddVenue onSubmit={this.onSubmit} />
               </Modal>
@@ -154,6 +173,19 @@ class ClientDetail extends React.Component {
         &nbsp;
         <div>
           <Card title="Transaction Details" style={{ width: 900 }}>
+            <div>
+              <Button type="primary" onClick={this.showModal2}>
+                Add Transaction
+              </Button>
+              <Modal
+                title="Add Payment"
+                visible={this.state.visible2}
+                onOk={this.handleOk2}
+                onCancel={this.handleCancel2}
+              >
+                <AddTransaction clientid="456TYHUI876" pendingdues="5000" />
+              </Modal>
+            </div>
             <Table columns={columns} dataSource={data} pagination={false} />
           </Card>
         </div>
