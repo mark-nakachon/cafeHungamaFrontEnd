@@ -1,8 +1,9 @@
 import React from 'react'
 import 'antd/dist/antd.css';
 import './BankDetails.css'
-import { Card, Button,Modal } from 'antd';
+import { Card, Button,Modal,Spin } from 'antd';
 import AddBankDetails from './AddBankDetails';
+import API from '../../api/API';
 
     class EditBankPage extends React.Component{
 
@@ -26,6 +27,7 @@ import AddBankDetails from './AddBankDetails';
                 visible: false,
                 confirmLoading: false,
             });
+            this.props.detailsUpdated();
         };
         
         
@@ -33,7 +35,7 @@ import AddBankDetails from './AddBankDetails';
             const { visible, confirmLoading } = this.state;
             return (
             <div>
-                <Button style={{width:"100%"}}size="large" type='primary' onClick={this.showModal}>
+                <Button style={{width:"100px",margin:"0 0 10px 0"}}size="large" type='primary' onClick={this.showModal}>
                     Add Bank
                 </Button>
                 <Modal
@@ -45,7 +47,7 @@ import AddBankDetails from './AddBankDetails';
                 footer={[
                     <Button key="submit" type="primary"  onClick={this.handleOk}>
                     Close
-                    </Button>,
+                    </Button>
                 ]}>
                 <AddBankDetails/>
                 </Modal>
@@ -53,50 +55,17 @@ import AddBankDetails from './AddBankDetails';
             );
         }
     }
-    const BankDetailsRequest=()=>{
-        return [
-            {
-            accountID:1,
-            bankname : "HDFC",
-            accountnumber : "11111111111111",
-            branch : "Paschin Vihar",
-            mobilenumber : "1122334455",
-            IFSC : "234HDFC"
-        },
-        {
-            accountID:2,
-            bankname : "HDFC",
-            accountnumber : "11111111111111",
-            branch : "Paschin Vihar",
-            mobilenumber : "1122334455",
-            IFSC : "484HDFC"
-        },
-        {
-            accountID:3,
-            bankname : "HDFC",
-            accountnumber : "11111111111111",
-            branch : "Paschin Vihar",
-            mobilenumber : "1122334455",
-            IFSC : "234HDFC"
-        },
-        {
-            accountID:4,
-            bankname : "HDFC",
-            accountnumber : "11111111111111",
-            branch : "Paschin Vihar",
-            mobilenumber : "1122334455",
-            IFSC : "484HDFC"
-        }];
-    }
-    const showBankDetails=()=>{
-        let datas = BankDetailsRequest()
+    // Render the Acoount Details
+    const showBankDetails=datas=>{
+        let i=0
         return datas.map(data=>{
+            i++
             return (
                 <div className="bankdetails">
                 <div>
-                    <h2>Account {data.accountID}</h2>
-                    <div><h3>Bank </h3><h3>{data.bankname}</h3></div>
-                    <div><h3>Account Number</h3><h3>{data.accountnumber}</h3></div>
+                    <h2>Account {i}</h2>
+                    <div><h3>Bank </h3><h3>{data.bank}</h3></div>
+                    <div><h3>Account Number</h3><h3>{data.account_no}</h3></div>
                     <div><h3>Branch</h3><h3>{data.branch}</h3></div>
                     <div><h3>Mobile Number</h3><h3>{data.mobilenumber}</h3></div>
                     <div><h3>IFSC</h3><h3>{data.IFSC}</h3></div>
@@ -107,17 +76,39 @@ import AddBankDetails from './AddBankDetails';
         })
 
     }
-    const BankDetails =()=>{
+    class BankDetails extends React.Component{
+        state={
+            details:[],
+            loading:true
+        }
+        componentDidMount(){
+           this.getBankDetails();
+        }
+        getBankDetails=async ()=>{
+            const response =await API.get('/client/5d368a7f4a915e2c58f34952/bankdetails')
+            this.setState({
+                details:response.data,
+                loading:false
+            })
+        }
+        detailsUpdated=()=>{
+            this.getBankDetails();
+        }
+        render(){
             return(
             <div>
             <Card title="Bank Details" headStyle={{border:"ridge 2px black",margin:"0"}} bodyStyle={{padding:"0"}} style={{ border:"solid 1px black",width: "55em",margin:"auto",textAlign:"center" }}>
             <div>
-                <EditBankPage/>
+                <EditBankPage detailsUpdated={this.detailsUpdated}/>
             </div>
-                {showBankDetails()}
+            <div style={{textAlign:"center"}}>
+                <Spin spinning={this.state.loading} size="large" tip="Loading"/>
+            </div>
+                {showBankDetails(this.state.details)}
             </Card>
             </div>
         )
+        }
     }
 
 export default BankDetails
