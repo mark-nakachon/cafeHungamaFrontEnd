@@ -1,7 +1,9 @@
 import React from "react";
 import "./ClientDetail.css";
-import { Card, Table } from "antd";
+import { Card, Table, Row, Col, Modal,Icon } from "antd";
 import Venue from "./Venue";
+import AddVenue from './AddVenue';
+import axios from 'axios';
 
 const columns = [
   {
@@ -20,6 +22,28 @@ const columns = [
     key: "Payment Done"
   }
 ];
+const bankcolumns = [
+  {
+    title: "IFSC Code",
+    dataIndex: "ifsc",
+    key: "ifsc"
+  },
+  {
+    title: "Bank Name",
+    dataIndex: "bank",
+    key: "bank"
+  },
+  {
+    title: "Account Number",
+    dataIndex: "account_no",
+    key: "account_no"
+  },
+  {
+    title: "Branch",
+    dataIndex: "branch",
+    key: "branch"
+  },
+]
 const data = [
   {
     key: "1",
@@ -31,38 +55,101 @@ const data = [
 
 class ClientDetail extends React.Component {
   state = {
-    regdate: "9/10/2019",
-    adhaar: "23456789",
-    gst: "676021",
-    ifsc: "567890",
-    bankname: "sbi",
-    branch: "tilak nagar",
-    Accountno: "34567"
+    ifsc: "",
+    bankname: "",
+    branch: "",
+    Accountno: "",
+    visible: false,
+    data: [],
+    profile:[],
+    bankdetails:[],
+    loading:true
+  };
+  
+  showModal = () => {
+    this.setState({
+      visible: true
+    });
   };
 
+  handleOk = e => {
+    console.log(e);
+    this.setState({
+      visible: false
+    });
+  };
+  componentDidMount(){
+    axios.get(
+    `https://cafehungama.herokuapp.com/client/5d368a7f4a915e2c58f34952/profile`
+    ).then(res => {
+      this.setState({ profile: res.data})
+    });
+    axios.get(
+      `https://cafehungama.herokuapp.com/client/5d368a7f4a915e2c58f34952/bankdetails`
+    ).then(res=>{
+      this.setState({ bankdetails: res.data, loading: false})
+    });
+  }
+  handleCancel = e => {
+    console.log(e);
+    this.setState({
+      visible: false
+    });
+  };
+  onSubmit = (props) => {
+    console.log(props);
+    axios.post(
+      `https://cafehungama.herokuapp.com/client/5d09067224036b46e40f8d30/venues`, props[0]
+    ).then(function (response) {
+      console.log(response);
+      console.log(response.data);
+    })
+    this.setState({
+      visible: false
+    });
+
+  }
   render() {
     return (
       <div>
         <div>
           <h3>
-            Registered on : {this.state.regdate} &nbsp;&nbsp; Adhaar number :{" "}
-            {this.state.adhaar} &nbsp; &nbsp; GST number : {this.state.gst}
+            Client ID : {this.state.profile._id} &nbsp;&nbsp; Client Name :{this.state.profile.firstName}
+           &nbsp; &nbsp; Contact : {this.state.profile.contact}
           </h3>
         </div>
         &nbsp;
         <div>
           <Card title="Account Details" style={{ width: 600 }}>
-            <p>IFSC Code : {this.state.ifsc}</p>
-            <p>Bank Name :{this.state.bankname}</p>
-            <p>Branch : {this.state.branch}</p>
-            <p>Account Number :{this.state.Accountno}</p>
+            <Table columns={bankcolumns} dataSource={this.state.bankdetails} pagination={false} loading={this.state.loading} />
           </Card>
         </div>
         &nbsp;
         <div>
-          <Card title="Venues" style={{ width: 600 }}>
-            <Venue />
-          </Card>
+          <Row>
+            <Col span={12}>
+              <Card title="Venues" style={{ width: 600 }}>
+                <Venue />
+              </Card>
+            </Col>
+            <Col span={3}>
+              <button class="button" onClick={this.showModal}>
+                <Icon type="home" />
+                Add new Venue
+            </button>
+
+              <Modal
+                title="Add Venue"
+                visible={this.state.visible}
+                onOk={this.handleOk}
+                onCancel={this.handleCancel}
+              >
+                <AddVenue onSubmit={this.onSubmit} />
+              </Modal>
+            </Col>
+          </Row>
+          
+          
         </div>
         &nbsp;
         <div>

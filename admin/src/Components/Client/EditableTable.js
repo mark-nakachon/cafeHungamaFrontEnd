@@ -74,31 +74,37 @@ class EditableTable extends React.Component {
     columns: [
       {
         title: "S. No",
-        dataIndex: "userId",
+        dataIndex: "sno",
         width: "5%",
         editable: false
       },
       {
         title: "clientID",
-        dataIndex: "id", //clientid
+        dataIndex: "_id", //clientid
         width: "5%",
         editable: false
       },
       {
-        title: "Name",
-        dataIndex: "title",
+        title: "First Name",
+        dataIndex: "firstName",
+        width: "10%",
+        editable: true
+      },
+      {
+        title: "Last Name",
+        dataIndex: "lastName",
         width: "10%",
         editable: true
       },
       {
         title: "Email Id",
-        dataIndex: "body", //email same name as in backend
+        dataIndex: "email", //email same name as in backend
         width: "15%",
         editable: true
       },
       {
         title: "Contact No.",
-        dataIndex: "phone",
+        dataIndex: "contact",
         width: "10%",
         editable: true
       },
