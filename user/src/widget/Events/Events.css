@@ -1,0 +1,164 @@
+.Events {
+}
+
+.EventItem {
+  background: white;
+  display: grid;
+  grid-template-columns: 32.5% 67.5%;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+.EventItem img {
+  width: 100%;
+}
+
+.EIText {
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  font-size: 16px;
+}
+
+.EIBtn {
+  border: none;
+  border-radius: 5px;
+  background: red;
+  color: white;
+  cursor: pointer;
+  height: 30px;
+}
+.EIcol1 {
+  display: grid;
+  grid-template-rows: 33% 33% 33%;
+}
+.EIcol2 {
+  text-align: center;
+  display: grid;
+  grid-template-rows: 100%;
+  align-content: center;
+}
+.EIcol3 {
+  display: grid;
+  grid-template-rows: 50% 50%;
+  text-align: center;
+}
+.event-details-container {
+  margin: 0 50px;
+  display: grid;
+  grid-template-columns: repeat(12, [col-start] 1fr);
+}
+.event-details {
+  grid-column: col-start / span 12;
+}
+.permanent-note {
+  text-align: center;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+.event-days {
+  grid-column: col-start / span 8;
+  margin: 0 0 10px 0;
+  display: grid;
+  grid-template-columns: 25% 75%;
+  text-align: center;
+  background: white;
+}
+.time-slots {
+  display: grid;
+  grid-template-rows: 16.66% 16.66% 16.66% 16.66% 16.66% 16.66%;
+}
+.time-slot-item {
+  border: 2px solid black;
+  display: grid;
+  grid-template-columns: 10% 15% 25% 40% 10%;
+  font-size: 18px;
+}
+.timings {
+}
+
+.price {
+}
+.seat {
+}
+.success {
+  color: green;
+  font-weight: bold;
+}
+.checkbox input {
+  padding: 100px;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+}
+
+.event-morning {
+}
+.event-days img {
+  width: 100%;
+}
+.recent-events {
+  border: 2px solid black;
+  grid-column: col-start 9 / span 4;
+  margin: 0 10px;
+  grid-row: 3;
+}
+.quantity-btn {
+  grid-column: col-start 7 / span 2;
+  text-align: center;
+}
+.quantity-btn button {
+  background: red;
+  border: none;
+  margin: 5px;
+  border-radius: 5px;
+  color: white;
+  font-size: 18px;
+  padding: 0 10px;
+  cursor: pointer;
+}
+.selected-events {
+  grid-column: col-start 1 / span 12;
+  display: grid;
+  grid-template-columns: 50% 25% 25%;
+  border-radius: 15px;
+  padding: 10px;
+  background: lightseagreen;
+  color: white;
+}
+.book-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  background: red;
+  text-align: center;
+  color: white;
+  grid-column: col-start 5 / span 3;
+}
+
+/* 
+.EventDetails {
+  margin: 10px 50px;
+  display: grid;
+  grid-template-columns: repeat(12, [col-start] 1fr);
+  grid-gap: 20px;
+}
+
+.EventDetails .EI {
+  height: 200px;
+  border: 2px solid white;
+}
+
+.EventDetails .EI img {
+  height: 100%;
+  border-radius: 20px;
+  grid-column: col-start / span 3;
+}
+
+.EventDetails .EIT {
+  font-size: 16px;
+  grid-column: col-start 4 / -1;
+}
+
+.EventDetails .EIc1 {
+} */

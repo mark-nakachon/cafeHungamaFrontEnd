@@ -1,0 +1,102 @@
+/* .SidebarContainer {
+  padding: 15px 40px;
+  width: 300px;
+  background: white;
+  height: 100%;
+  margin-top: 75px;
+  position: fixed;
+}
+
+.dis-none {
+  display: none;
+}
+.dis-block {
+  display: block;
+}
+.ToggleBtn {
+  display: none;
+  top: 75px;
+  background: white;
+  cursor: pointer;
+  width: 200px;
+  height: 50px;
+  border-radius: 0 50px 50px 0;
+  padding: 10px;
+  position: absolute;
+  z-index: 0;
+}
+.ToogleBtnIcon {
+  float: left;
+  margin-right: 20px;
+}
+.ToggleBtn p {
+  font-size: 18px;
+}
+
+@media only screen and (max-width: 768px) {
+  .SidebarContainer {
+    width: 100%;
+    display: none;
+  }
+  .ToggleBtn {
+    display: block;
+  }
+}
+
+.SidebarFilter {
+}
+.SidebarFilter .Slider {
+}
+.SidebarTitle {
+  font-size: 18px;
+  padding: 0 30px 0 0;
+}
+
+.Ratings {
+  padding: 10px 0;
+}
+.Ammenities {
+  padding: 10px 0;
+}
+.Distance,
+.Map,
+.Place {
+  padding: 10px 0;
+}
+.DistanceBtn {
+  background: lightblue;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.Place input {
+  margin: 5px 0;
+  width: 100%;
+  border: 2px solid lightblue;
+  border-radius: 5px;
+}
+.FilterBtn {
+  background: wheat;
+  border: none;
+  padding: 5px 25px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: black;
+  font-size: 18px;
+} */
+.price-range{
+  margin-left: 40px;
+  margin-right: 30px;
+}
+.rating{
+  margin-left: 40px;
+}
+.sort_by_distance{
+  margin-left: 40px;
+  margin-right: 30px;
+}
+.latest-order{
+  padding-left: 5px;
+  padding-right: 5px;
+}
