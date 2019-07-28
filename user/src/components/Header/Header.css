@@ -1,0 +1,24 @@
+.header {
+  display: grid;
+  grid-template-columns: min-content min-content;
+  grid-column-gap: 3rem;
+  justify-content: space-between;
+  padding: 10px 50px;
+  background-color: #292a2b;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  width: 100%;
+}
+.header-menu {
+  background:  #292a2b;
+  color: white;
+  border: none;
+}
+@media only screen and (max-width: 768px){
+  .header{
+    display: inline-flex;
+    width:100%;
+  }
+}
