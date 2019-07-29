@@ -14,13 +14,13 @@ class AddTransactionForm extends React.Component {
     onSubmit = event => {           // Function Will Call API
         event.preventDefault();
         //Send this object to API
-        const Request = {
+      /*   const Request = {
             clientid: this.state.clientid,
             pendingdues: this.state.pendingdues,
             amount: this.state.amount,
             transaction_id: this.state.transaction_id,
             remarks: this.state.remarks
-        }
+        } */
     };
     getFields() {
         const { getFieldDecorator } = this.props.form;

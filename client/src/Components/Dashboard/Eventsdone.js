@@ -5,38 +5,34 @@ import axios from "axios";
 
 //make a state for called response for accept and decline and pass that as parameter in axios.post
 class Payment extends React.Component {
-    componentDidMount() {
-        axios.get(`https://jsonplaceholder.typicode.com/users`).then(res => {
-            this.setState({ data: res.data, loading: false });
-
-            console.log(this.state.data.req);
-        });
-    }
     constructor(props) {
         super(props);
+        this.columns= [
+            {
+                title: "Notification",
+              //  dataIndex: "event",
+                key: "event"
+            }
+        ];
         this.state = {
             loading: true,
-            notifications: [],
-            columns: [
-                {
-                    title: "Notification",
-                    dataIndex: "name"
-                }
-            ],
-
-            data: [
-                {
-                    username: ""
-                }
-            ]
+            data: []
         };
     }
+    componentDidMount() {
+        axios.get(`https://cafehungama.herokuapp.com/client/5d38a08cd561f03a18743855/notifications/event`)
+        .then(res => {
+            this.setState({ data: res.data, loading: false });
+            console.log(this.state.data);
+        });
+    }
+    
 
     render() {
-        const { data } = this.state;
+        //const { data } = this.state;
         return (
             <div style={{ marginLeft: '20px', width: '40%' }}>
-                <Table columns={this.state.columns} dataSource={data} pagination={false} bordered size="large"  scroll={{y:160}} loading={this.state.loading}/>
+                <Table columns={this.columns} dataSource={this.state.data} pagination={false} bordered size="small"  scroll={{ y:200 }} loading={this.state.loading}/>
             </div>
         );
     }

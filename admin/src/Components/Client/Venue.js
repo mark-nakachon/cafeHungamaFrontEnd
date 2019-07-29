@@ -31,11 +31,6 @@ class EnableVenue extends React.Component {
       this.setState({ data: res.data,loading:false });
     });
   }
-  handleDisable = key => {
-    const dataSource = [...this.state.dataSource];
-    this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
-  };
-
   render() {
     return (
       <Table

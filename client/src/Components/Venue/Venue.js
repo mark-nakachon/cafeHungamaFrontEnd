@@ -59,12 +59,18 @@ class Venue extends Component {
               margin: "5px"
             }}
             onClick={this.cardClicked}
-          >
-            <h4>Name:{venue.venueName}</h4>
-            <h4>Address:{venue.line1},{venue.city},{venue.state}</h4>
-            <h4>Ratings:</h4>
-            <h4>Screens:{venue.noOfScreens}</h4>
-            <h4>Amenties:{venue.amenties}</h4>
+          > <div className="vimage">
+              {venue.image}
+          </div>
+            <div className="vdetail">
+              <h4>Name:{venue.venueName}</h4>
+              <h4>Address:{venue.line1},{venue.city},{venue.state}</h4>
+              <h4>Ratings:</h4>
+              <h4>Screens:{venue.noOfScreens}</h4>
+              <h4>Amenties:{venue.amenties}</h4>
+              <h4>Contact:{venue.venueContact}</h4>
+              <h4>Capacity:{venue.maxCapacity}</h4>
+            </div>
           </Card.Grid>
         </div>
       );
