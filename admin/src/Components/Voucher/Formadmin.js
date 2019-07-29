@@ -3,9 +3,7 @@ class Form extends React.Component {
   state = {
     vouchername: "",
     amount: "",
-    description: "",
-    validity: "",
-    applicable: "First Time Users"
+    description: ""
   };
   handleInputChange = e => {
     this.setState({
@@ -18,9 +16,7 @@ class Form extends React.Component {
     data.push({
       vouchername: this.state.vouchername,
       amount: this.state.amount,
-      description: this.state.description,
-      validity: this.state.validity,
-      applicable: this.state.applicable
+      description: this.state.description
     });
     this.props.handleFormSubmit(data);
     this.setState({
@@ -54,32 +50,6 @@ class Form extends React.Component {
               name="amount"
               onChange={this.handleInputChange}
             />
-          </label>
-          &nbsp;&nbsp;
-          <label htmlFor="validity">
-            Validity: &nbsp;&nbsp;
-            <input
-              id="validity"
-              value={this.state.validity}
-              type="date"
-              name="validity"
-              onChange={this.handleInputChange}
-            />
-          </label>
-          <br />
-          <br />
-          <label htmlFor="applicable">
-            Applicable For: &nbsp;&nbsp;
-            <select
-              onChange={this.handleInputChange}
-              defaultValue="First Time Users"
-              name="applicable"
-            >
-              <option value="First Time Users" selected>
-                First Time Users
-              </option>
-              <option value="All Users">All Users</option>
-            </select>
           </label>
           &nbsp;&nbsp;
           <label htmlFor="description">
