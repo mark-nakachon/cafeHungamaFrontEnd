@@ -2,62 +2,63 @@ import React from "react";
 import "./UserDetail.css";
 import { Card, Table } from "antd";
 
-const columns = [
-  {
-    title: "Date",
-    dataIndex: "Date",
-    key: "Date"
-  },
-  {
-    title: "Event",
-    dataIndex: "Event",
-    key: "Event"
-  },
-  {
-    title: "Payment Done",
-    dataIndex: "PaymentDone",
-    key: "Payment Done"
-  }
-];
-const data = [
-  {
-    key: "1",
-    Date: "9/01/2019",
-    Event: "Kabir Singh",
-    PaymentDone: "2000"
-  }
-];
-
 class UserDetail extends React.Component {
   state = {
-    regdate: "8/01/2019",
-    adhaar: "23456789",
-    balance: 5000,
-    booking: 25
+    firstName: "",
+    lastName: "",
+    balance: "",
+    numOfBooking: "",
+    bookings: [],
+    data: [],
+    columns: [
+      {
+        title: "Date",
+        dataIndex: "Date",
+        key: "Date"
+      },
+      {
+        title: "Event",
+        dataIndex: "Event",
+        key: "Event"
+      },
+      {
+        title: "Payment Done",
+        dataIndex: "PaymentDone",
+        key: "Payment Done"
+      }
+    ]
   };
+  componentDidMount() {
+    console.log(this.props.detail);
+    this.setState({
+      data: this.props.detail
+    });
+  }
 
   render() {
+    const { data, bookings } = this.state;
     return (
       <div>
         <div>
           <h3>
-            Registered on : {this.state.regdate} &nbsp;&nbsp; Adhaar number :{" "}
-            {this.state.adhaar} &nbsp; &nbsp;
+            Name : {data.firstName} {data.lastName}
           </h3>
         </div>
-        &nbsp;
         <div>
           <Card title="Personal Details" style={{ width: 600 }}>
-            <p>Balance : {this.state.balance}</p>
-            <p>Number of bookings done : {this.state.booking}</p>
+            <p>Balance : {data.balance}</p>
+            <p>Number of bookings done : {data.numOfBooking}</p>
           </Card>
         </div>
-        &nbsp;
         <div />
         &nbsp;
         <div>
           <Card title="Booking Details" style={{ width: 900 }}>
-            <Table columns={columns} dataSource={data} pagination={false} />
+            <Table
+              columns={this.state.columns}
+              dataSource={bookings}
+              pagination={false}
+            />
           </Card>
         </div>
         <div />
