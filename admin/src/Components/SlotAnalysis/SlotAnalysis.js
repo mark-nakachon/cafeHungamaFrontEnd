@@ -1,6 +1,5 @@
 import React from "react";
-import { DatePicker, Table, Select } from "antd";
-import moment from "moment";
+import { Button, Table, Select } from "antd";
 
 const { Option } = Select;
 const children = [];
@@ -19,6 +18,10 @@ class SlotAnalysis extends React.Component {
         dataIndex: "clientName"
       },
       {
+        title: "Client Comany",
+        dataIndex: "clientCompany"
+      },
+      {
         title: "Venue Name",
         dataIndex: "venueName"
       },
@@ -27,20 +30,51 @@ class SlotAnalysis extends React.Component {
         dataIndex: "venueLocation"
       }
     ],
-    data: []
+    data: [],
+    loading: true,
+    slot: "24",
+    date: ""
   };
-  disabledDate = current => {
-    return current > moment().endOf("day");
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+  componentDidMount() {
+    this.search();
+    this.setState({ loading: false });
+  }
+  search = () => {
+    /*
+    try{
+      axios.get(``)                                      //pass slot and date
+      .then(response =>{
+        this.setState({data:response.data,loading:false})
+      })
+    }
+    catch(error){
+      console.log(error)
+    }
+    */
   };
   render() {
     return (
       <div>
         Date :&nbsp;&nbsp;
-        <DatePicker disabledDate={this.disabledDate} />
+        <input type="date" onChange={this.handleChange} name="date" />
         &nbsp;&nbsp; Time Slot : &nbsp;
-        <Select placeholder="Please select" defaultValue="24">
+        <Select
+          placeholder="Please select"
+          defaultValue="24"
+          onChange={this.handleChange}
+          name="slot"
+        >
           {children}
-        </Select>
+        </Select>{" "}
+        &nbsp;&nbsp;
+        <Button type="primary" onClick={this.search}>
+          Search
+        </Button>
         <br />
         <br />
         <Table
@@ -49,6 +83,7 @@ class SlotAnalysis extends React.Component {
           pagination={false}
           size="medium"
           bordered
+          loading={this.state.loading}
         />
       </div>
     );
