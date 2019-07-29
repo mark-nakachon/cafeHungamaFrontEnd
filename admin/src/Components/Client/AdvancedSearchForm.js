@@ -11,16 +11,30 @@ class AdvancedSearchForm extends React.Component {
     userName: "",
     venueName: ""
   };
-
+  handleChange = e =>{
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
   onSubmit = event => {
     event.preventDefault();
-    this.props.onSubmit(this.state.firstName);
+    //this.props.onSubmit(this.state.firstName);
+    const data = [];
+    data.push({
+      email: this.state.email,
+      firstName: this.state.firstName,
+      userName: this.state.userName,
+      companyName: this.state.companyName,
+      contact: this.state.contact,
+      venueName: this.state.venueName
+    });
+    this.props.onSubmit(data); //send data here
   };
   getFields() {
     const { getFieldDecorator } = this.props.form;
     const children = [];
     children.push(
-      <Row style={{ marginLeft: "10px" }}>
+      <Row style={{ marginLeft: "10px"}} key="userName">
         <Col span={3} className="colpad">
           <Form.Item label="Email">
             {getFieldDecorator("email", {
@@ -31,11 +45,11 @@ class AdvancedSearchForm extends React.Component {
                   message: "Input email id only!"
                 }
               ]
-            })(<Input placeholder="Enter Email" type="email" />)}
+            })(<Input placeholder="Enter Email" onChange={this.handleChange} name="email" />)}
           </Form.Item>
         </Col>
         <Col span={3} className="colpad">
-          <Form.Item label=" Name">
+          <Form.Item label="First Name">
             {getFieldDecorator("name", {
               rules: [
                 {
@@ -43,7 +57,7 @@ class AdvancedSearchForm extends React.Component {
                   message: "Input something!"
                 }
               ]
-            })(<Input placeholder="Enter Name" name="firstName"/>)}
+            })(<Input placeholder="Enter Name" name="firstName" onChange={this.handleChange}/>)}
           </Form.Item>
         </Col>
         <Col span={3} className="colpad">
@@ -55,7 +69,7 @@ class AdvancedSearchForm extends React.Component {
                   message: "Input something!"
                 }
               ]
-            })(<Input placeholder="Enter Phone no" name="contact"/>)}
+            })(<Input placeholder="Enter Contact no" pattern="[1-9][0-9]{9}" name="contact" onChange={this.handleChange}/>)}
           </Form.Item>
         </Col>
 
@@ -68,7 +82,7 @@ class AdvancedSearchForm extends React.Component {
                   message: "Input something!"
                 }
               ]
-            })(<Input placeholder="Enter Company name" name="companyName" />)}
+            })(<Input placeholder="Enter Company name" name="companyName" onChange={this.handleChange}/>)}
           </Form.Item>
         </Col>
         <Col span={3} className="colpad">
@@ -80,7 +94,7 @@ class AdvancedSearchForm extends React.Component {
                   message: "Input something!"
                 }
               ]
-            })(<Input placeholder="Enter User name" name="userName"/>)}
+            })(<Input placeholder="Enter User name" name="userName" onChange={this.handleChange}/>)}
           </Form.Item>
         </Col>
         <Col span={3} className="colpad">
@@ -92,13 +106,15 @@ class AdvancedSearchForm extends React.Component {
                   message: "Input something!"
                 }
               ]
-            })(<Input placeholder="Enter Venue" name="venueName"/>)}
+            })(<Input placeholder="Enter Venue" name="venueName" onChange={this.handleChange}/>)}
           </Form.Item>
         </Col>
         <Col span={2} style={{ marginTop: "40px" }}>
-          <Button type="primary" htmlType="submit" onClick={this.onSubmit}>
-            Search
-          </Button>
+          <Form.Item label="">
+            <Button htmlType="submit" type="primary">
+              Search
+            </Button>
+          </Form.Item>
         </Col>
       </Row>
     );
