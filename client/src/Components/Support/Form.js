@@ -54,7 +54,7 @@ class Form extends React.Component {
               onChange={this.handleInputChange}
             />
           </label>
-          &nbsp;&nbsp;
+          <br />
           <label htmlFor="issue_comment">
             Issue Comment: &nbsp;&nbsp;
             <input

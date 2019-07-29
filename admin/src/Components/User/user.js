@@ -2,38 +2,54 @@ import React from "react";
 import { WrappedAdvancedSearchForm } from "./AdvancedSearchForm";
 import EditableFormTable from "./EditableTable";
 import axios from "axios";
-import { Spin } from "antd";
 
 class User extends React.Component {
   state = {
     selecteduser: [],
-    visible: true
+    loading: true
   };
   componentDidMount() {
-    this.onTermSubmit(); //default value set to 1
+    this.onTermSubmit();
   }
   onTermSubmit = async term => {
     try {
-      this.setState({ visible: true });
+      this.setState({ loading: true });
+      let str = "";
+      if (term[0].userName !== "") str = str.concat("?_id=", term[0].userName);
+      if (term[0].email !== "") {
+        if (str !== "") str = str.concat("&?email=", term[0].email);
+        else str = str.concat("?email=", term[0].email);
+      }
+      if (term[0].firstName !== "") {
+        if (str !== "") str = str.concat("&?firstName=", term[0].firstName);
+        else str = str.concat("?firstName=", term[0].firstName);
+      }
+      if (term[0].lastName !== "") {
+        if (str !== "") str = str.concat("&?lastName=", term[0].lastName);
+        else str = str.concat("?lastName=", term[0].lastName);
+      }
+      if (term[0].contact !== "") {
+        if (str !== "") str = str.concat("&?contact=", term[0].contact);
+        else str = str.concat("?contact=", term[0].contact);
+      }
       const response = await axios.get(
-        `https://jsonplaceholder.typicode.com/posts?userId=${term}`
+        `https://cafehungama.herokuapp.com/admin/users${str}`
       );
-      //  console.log(response.data);
-      this.setState({ selecteduser: [response.data], visible: false });
-      //this.setState({ selecteduser: response.data });
+      this.setState({ selecteduser: [response.data], loading: false });
     } catch (e) {
       console.log("error: ", e);
+      this.setState({ loading: false });
     }
   };
   render() {
     return (
       <div>
         <WrappedAdvancedSearchForm onSubmit={this.onTermSubmit} />
-        <br />
-        <Spin spinning={this.state.visible} size="large" tip="Loading..." />
-        <div>
-          <EditableFormTable userid={this.state.selecteduser} />
-        </div>
+
+        <EditableFormTable
+          userid={this.state.selecteduser}
+          loading={this.state.loading}
+        />
       </div>
     );
   }

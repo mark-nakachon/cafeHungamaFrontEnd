@@ -56,35 +56,18 @@ class EditableTable extends React.Component {
   state = {
     visible: false,
     editingKey: "",
-    // useridentifaction: this.props.userid,
-    data: [
-      /*{
-        key: "",
-        userID: "",
-        name: " ",
-        email: "",
-        phone: ""
-        
-      }*/
-    ],
+    data: [],
     columns: [
       {
-        title: "S. No",
-        dataIndex: "userId",
-        width: "7%",
-        editable: false,
-        key: "userId"
-      },
-      {
-        title: "User ID",
-        dataIndex: "id",
+        title: "User Name",
+        dataIndex: "userName",
         width: "10%",
         editable: false,
-        key: "id"
+        key: "userName"
       },
       {
         title: " First Name",
-        dataIndex: "title",
+        dataIndex: "firstName",
         width: "12%",
         editable: true,
         key: "name"
@@ -98,13 +81,13 @@ class EditableTable extends React.Component {
       },
       {
         title: "Email Id",
-        dataIndex: "body",
+        dataIndex: "email",
         width: "20%",
         editable: true
       },
       {
         title: "Contact No.",
-        dataIndex: "phone",
+        dataIndex: "contact",
         width: "15%",
         editable: true
       },
@@ -157,7 +140,7 @@ class EditableTable extends React.Component {
                 onOk={this.handleOk}
                 onCancel={this.handleCancel}
               >
-                <UserDetail />
+                <UserDetail detail={record} />
               </Modal>
             </span>
           );
@@ -165,28 +148,16 @@ class EditableTable extends React.Component {
       }
     ]
   };
-  /* componentDidMount() {
-    setTimeout(() => {
-      const data = this.props.userid[0];
-      this.setState({
-        data: data
-      });
-    }, 2000);
-  }*/
+
   componentDidUpdate(prevProps, prevState) {
     // only update chart if the data has changed
     if (prevProps.userid !== this.props.userid) {
       const data = this.props.userid[0];
       this.setState({
-        data: data,
+        data: data
       });
     }
   }
-  /* static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.userid !== prevState.data) {
-      return { };
-    } else return null; // Triggers no change in the state
-  }*/
 
   isEditing = record => record.id === this.state.editingKey;
 
@@ -243,8 +214,6 @@ class EditableTable extends React.Component {
   }
 
   render() {
-    //console.log(this.props.userid);
-    //console.log(this.state.data);
     const components = {
       body: {
         cell: EditableCell
@@ -269,14 +238,14 @@ class EditableTable extends React.Component {
 
     return (
       <EditableContext.Provider value={this.props.form}>
-       
         <Table
           components={components}
           bordered
           dataSource={this.state.data}
           columns={columns}
           rowClassName="editable-row"
-          rowKey="id"
+          rowKey="userName"
+          loading={this.props.loading}
           pagination={{
             onChange: this.cancel
           }}

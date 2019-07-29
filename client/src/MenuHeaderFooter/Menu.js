@@ -53,7 +53,7 @@ class RouterApp extends React.Component {
                 <span>Manage Venue</span>
                 <Link to="/venue" />
               </Menu.Item>
-              <Menu.Item key="3">
+              <Menu.Item key="3" disabled>
                 <Icon type="hdd" />
                 <span>Manage Coupon</span>
                 <Link to="/coupon" />

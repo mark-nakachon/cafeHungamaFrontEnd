@@ -3,64 +3,61 @@ import { Table, Popconfirm } from "antd";
 import React from "react";
 import axios from "axios";
 
-//make a state for called response for accept and decline and pass that as parameter in axios.post
 class Payment extends React.Component {
-  handleDelete = name => {
+  handleDecline = name => {
     const data = [...this.state.data];
     this.setState({ data: data.filter(item => item.name !== name) });
   };
 
   componentDidMount() {
-    axios.get(`https://jsonplaceholder.typicode.com/users`).then(res => {
-      this.setState({ data: res.data });
+    try {
+      //check for superadmin and admin to set the visibility for the operation column
 
-      console.log(this.state.data.req);
-    });
+      const cols = this.state.columns.filter(col => col.show);
+      axios.get(`https://jsonplaceholder.typicode.com/users`).then(res => {
+        this.setState({ data: res.data, columns: cols, loading: false });
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
   constructor(props) {
     super(props);
     this.state = {
+      loading: true,
       notifications: [],
       columns: [
         {
           title: "Notification",
-          dataIndex: "name"
+          dataIndex: "name",
+          show: true
         },
 
         {
           title: "operation",
+          show: false,
           dataIndex: "operation",
           render: (text, record) =>
             this.state.data.length >= 1 ? (
               <span>
                 <Popconfirm
                   title="Sure to accept?"
-                  onConfirm={() => this.handleDelete(record.name)}
+                  onConfirm={() => this.handleAccept(record.name)}
                 >
                   <Button>Accept</Button>
                 </Popconfirm>
                 <Popconfirm
                   title="Sure to decline?"
-                  onConfirm={() => this.handleDelete(record.name)}
+                  onConfirm={() => this.handleDecline(record.name)}
                 >
                   <Button>Decline</Button>
-                </Popconfirm>
-                <Popconfirm
-                  title="Sure to send?"
-                  onConfirm={() => this.handleDelete(record.name)}
-                >
-                  <Button>Request to SuperAdmin </Button>
                 </Popconfirm>
               </span>
             ) : null
         }
       ],
 
-      data: [
-        {
-          username: ""
-        }
-      ]
+      data: []
     };
   }
 
@@ -68,7 +65,12 @@ class Payment extends React.Component {
     const { data } = this.state;
     return (
       <div>
-        <Table columns={this.state.columns} dataSource={data} bordered />
+        <Table
+          columns={this.state.columns}
+          dataSource={data}
+          bordered
+          loading={this.state.loading}
+        />
       </div>
     );
   }
