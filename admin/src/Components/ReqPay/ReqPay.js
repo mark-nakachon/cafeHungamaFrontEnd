@@ -1,30 +1,51 @@
 import React from "react";
-import { Tabs } from "antd";
-import ClientWise from "./ClientWise";
-import AllReq from "./AllReq";
-const { TabPane } = Tabs;
-
+import { Table } from "antd";
 class App extends React.Component {
-  state = { size: "small" };
-
-  onChange = e => {
-    this.setState({ size: e.target.value });
+  state = {
+    columns: [
+      {
+        title: "Client Id",
+        dataIndex: "clientId"
+      },
+      {
+        title: "Client Name",
+        dataIndex: "clientName"
+      },
+      {
+        title: "Client Comany",
+        dataIndex: "clientCompany"
+      },
+      {
+        title: "Date of transaction",
+        dataIndex: "date"
+      },
+      {
+        title: "Opening Balance",
+        dataIndex: "openbal"
+      },
+      {
+        title: "Amount Paid",
+        dataIndex: "amount"
+      },
+      {
+        title: "Closing Balance",
+        dataIndex: "closingbal"
+      }
+    ],
+    data: []
   };
-
+  componentDidMount() {
+    //call api
+  }
   render() {
-    const { size } = this.state;
     return (
-      <div>
-        <Tabs defaultActiveKey="1" size={size}>
-          <TabPane tab="All Requests" key="1">
-            <AllReq />
-          </TabPane>
-          <TabPane tab="Client-Wise Request" key="2">
-            <ClientWise />
-          </TabPane>
-        </Tabs>
-      </div>
+      <Table
+        columns={this.state.columns}
+        dataSource={this.state.data}
+        bordered
+      />
     );
   }
 }
+
 export default App;
