@@ -1,0 +1,45 @@
+.ant-table-body {
+  background-color: rgb(194, 253, 248);
+}
+.ant-carousel .slick-slider .slick-list {
+  margin: 0px -25px;
+}
+.ant-carousel .slick-slide {
+  text-align: center;
+  height: 250px;
+  line-height: 260px;
+  background: #364d79;
+}
+
+.ant-carousel .slick-slide h3 {
+  color: #fff;
+}
+
+.ant-card-body {
+  padding: 0px;
+}
+
+.note {
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+.ant-card-head-wrapper {
+  font-size: 24px;
+  background-color: lightcyan;
+}
+
+.ant-table-tbody > tr > td.ant-table-selection-column,
+.ant-table-thead > tr > th,
+.ant-table-tbody > tr > td {
+  padding: 0px;
+}
+@media only screen and (min-width: 365px) {
+  .ant-input-lg {
+    margin-left: 5px;
+  }
+}
+
+#selectNumberOfSeats {
+  width: 50px;
+}

@@ -3,25 +3,37 @@ import { Form, Row, Col, Input, Button } from "antd";
 
 class AdvancedSearchForm extends React.Component {
   state = {
-    userId: "",
+    userName: "",
     email: "",
-    name: "",
-    phone: ""
+    firstName: "",
+    lastName: "",
+    contact: ""
   };
-
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
   onSubmit = event => {
     event.preventDefault();
-    this.props.onSubmit(this.state.userId);
+    const data = [];
+    data.push({
+      userName: this.state.userName,
+      email: this.state.email,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      contact: this.state.contact
+    });
+    this.props.onSubmit(data); //send data here
   };
-
   getFields() {
     const { getFieldDecorator } = this.props.form;
     const children = [];
     children.push(
-      <Row style={{ marginLeft: "20px" }}>
-        <Col span={3}>
-          <Form.Item label="user ID">
-            {getFieldDecorator("userID", {
+      <Row style={{ marginLeft: "20px" }} key="userName">
+        <Col span={4}>
+          <Form.Item label="User Name">
+            {getFieldDecorator("userName", {
               rules: [
                 {
                   required: false,
@@ -30,51 +42,98 @@ class AdvancedSearchForm extends React.Component {
               ]
             })(
               <Input
-                placeholder="Enter user ID"
-                onChange={e => {
-                  this.setState({ userId: e.target.value });
-                }}
+                placeholder="Enter user name"
+                onChange={this.handleChange}
+                name="userName"
               />
             )}
           </Form.Item>
         </Col>
         <Col span={1} />
-        <Col span={3}>
+        <Col span={4}>
           <Form.Item label="Email">
             {getFieldDecorator("email", {
               rules: [
                 {
                   required: false,
-                  message: "Input something!"
+                  message: "Input valid email id!"
                 }
               ]
-            })(<Input placeholder="Enter Email" />)}
+            })(
+              <Input
+                placeholder="Enter Email"
+                type="email"
+                name="email"
+                onChange={this.handleChange}
+              />
+            )}
           </Form.Item>
         </Col>
         <Col span={1} />
-        <Col span={3}>
-          <Form.Item label=" Name">
-            {getFieldDecorator("name", {
+        <Col span={4}>
+          <Form.Item label="First Name">
+            {getFieldDecorator("firstName", {
               rules: [
                 {
                   required: false,
-                  message: "Input something!"
+                  message: "Input name!"
                 }
               ]
-            })(<Input placeholder="Enter Name" />)}
+            })(
+              <Input
+                placeholder="Enter First Name"
+                pattern="[a-zA-Z ]+"
+                name="firstName"
+                onChange={this.handleChange}
+              />
+            )}
           </Form.Item>
         </Col>
         <Col span={1} />
-        <Col span={3}>
+        <Col span={4}>
+          <Form.Item label="Last Name">
+            {getFieldDecorator("lastName", {
+              rules: [
+                {
+                  required: false,
+                  message: "Input name!"
+                }
+              ]
+            })(
+              <Input
+                placeholder="Enter Last Name"
+                pattern="[a-zA-Z ]+"
+                name="lastName"
+                onChange={this.handleChange}
+              />
+            )}
+          </Form.Item>
+        </Col>
+        <Col span={1} />
+        <Col span={4}>
           <Form.Item label="Contact no">
-            {getFieldDecorator("phone", {
+            {getFieldDecorator("contact", {
               rules: [
                 {
                   required: false,
                   message: "Input something!"
                 }
               ]
-            })(<Input placeholder="Enter Phone no" />)}
+            })(
+              <Input
+                placeholder="Enter contact no"
+                pattern="[1-9][0-9]{9}"
+                name="contact"
+                onChange={this.handleChange}
+              />
+            )}
+          </Form.Item>
+        </Col>
+        <Col span={2}>
+          <Form.Item label="">
+            <Button htmlType="submit" type="primary">
+              Search
+            </Button>
           </Form.Item>
         </Col>
       </Row>
@@ -86,13 +145,8 @@ class AdvancedSearchForm extends React.Component {
   render() {
     return (
       <Form className="ant-advanced-search-form" onSubmit={this.onSubmit}>
-        <Row gutter={17}>{this.getFields()}</Row>
         <Row>
-          <Col span={17}>
-            <Button type="primary" htmlType="submit">
-              Search
-            </Button>
-          </Col>
+          <Col span={30}>{this.getFields()}</Col>
         </Row>
       </Form>
     );

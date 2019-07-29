@@ -12,6 +12,7 @@ import Booking from "../Components/Booking/App";
 import Voucher from "../Components/Voucher/voucher";
 import ReqPay from "../Components/ReqPay/ReqPay";
 import SlotAnalysis from "../Components/SlotAnalysis/SlotAnalysis";
+import Notifications from "../Components/Notifications/Notification";
 const { Header, Content, Sider } = Layout;
 //const SubMenu = Menu.SubMenu;
 
@@ -75,7 +76,7 @@ class RouterApp extends React.Component {
                 <Link to="/superadmin" />
               </Menu.Item>
               <Menu.Item key="8">
-              <Icon type="clock-circle" />
+                <Icon type="clock-circle" />
                 <span>Slot Analysis</span>
                 <Link to="/slotanalysis" />
               </Menu.Item>
@@ -98,7 +99,7 @@ class RouterApp extends React.Component {
                 <Menu.Item key="1">
                   <Icon type="notification" />
                   <span>Notifications</span>
-                  <Link to="/" />
+                  <Link to="/notifications" />
                 </Menu.Item>
                 <Menu.Item key="2">
                   <Icon type="profile" />
@@ -116,6 +117,7 @@ class RouterApp extends React.Component {
               }}
             >
               <Route exact path="/" component={Dashboard} />
+              <Route exact path="/notifications" component={Notifications} />
               <Route path="/client" component={Client} />
               <Route path="/user" component={User} />
               <Route path="/superadmin" component={SuperAdmin} />
