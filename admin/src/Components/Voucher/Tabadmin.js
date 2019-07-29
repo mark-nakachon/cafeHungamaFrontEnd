@@ -25,6 +25,14 @@ class Tab extends React.Component {
           dataIndex: "amount"
         },
         {
+          title: "Validity (yy-mm-dd)",
+          dataIndex: "validity"
+        },
+        {
+          title: "Applicable For",
+          dataIndex: "applicable"
+        },
+        {
           title: "Voucher Description",
           dataIndex: "description"
         },
@@ -63,6 +71,7 @@ class Tab extends React.Component {
           dataSource={this.state.data}
           bordered
           rowKey="vouchername"
+          size="small"
         />
       </div>
     );
