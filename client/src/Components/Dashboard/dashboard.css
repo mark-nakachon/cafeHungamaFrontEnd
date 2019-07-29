@@ -1,0 +1,6 @@
+.ant-table-tbody > tr > td {
+  padding: 15px !important;
+}
+.ant-table-thead > tr > th {
+  padding: 15px !important;
+}

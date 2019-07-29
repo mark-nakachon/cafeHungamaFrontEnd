@@ -2,21 +2,7 @@ import React from "react";
 import { Table, Input, InputNumber, Popconfirm, Form, Modal } from "antd";
 import ClientDetail from "./ClientDetail";
 import "./ClientDetail.css";
-/*
-const data = [];
-for (let i = 0; i < 20; i++) {
-  data.push({
-      key: i.toString(),
-      clientID: i.toString(),
-      name: `Client ${i}`,
-      email: `client ${i}@gmail.com`,
-      phone: `${i}${i}${i}${i}${i}${i}${i}${i}${i}`,
-      company: `London Park no. ${i}`,
-      pendingpay: '1000',
-      username: `client ${i}@gmail.com`
-  });
-}
-*/
+
 const EditableContext = React.createContext();
 
 class EditableCell extends React.Component {
@@ -71,40 +57,47 @@ class EditableTable extends React.Component {
     visible: false,
     data: [],
     editingKey: "",
+    loading:true,
     columns: [
       {
         title: "S. No",
-        dataIndex: "userId",
+        dataIndex: "sno",
         width: "5%",
         editable: false
       },
       {
         title: "clientID",
-        dataIndex: "id", //clientid
+        dataIndex: "_id", //clientid
         width: "5%",
         editable: false
       },
       {
-        title: "Name",
-        dataIndex: "title",
+        title: "First Name",
+        dataIndex: "firstName",
+        width: "10%",
+        editable: true
+      },
+      {
+        title: "Last Name",
+        dataIndex: "lastName",
         width: "10%",
         editable: true
       },
       {
         title: "Email Id",
-        dataIndex: "body", //email same name as in backend
+        dataIndex: "email", 
         width: "15%",
         editable: true
       },
       {
         title: "Contact No.",
-        dataIndex: "phone",
+        dataIndex: "contact",
         width: "10%",
         editable: true
       },
       {
         title: "Company",
-        dataIndex: "company",
+        dataIndex: "companyName",
         width: "10%",
         editable: true
       },
@@ -116,7 +109,7 @@ class EditableTable extends React.Component {
       },
       {
         title: "Username",
-        dataIndex: "username",
+        dataIndex: "userName",
         width: "12%",
         editable: true
       },
@@ -177,12 +170,7 @@ class EditableTable extends React.Component {
       }
     ]
   };
-  /*   componentDidMount(){
-      fetch('')
-      .then(response=>)
-    }
-  */
-  componentDidUpdate(prevProps, prevState) {
+ /* componentDidUpdate(prevProps, prevState) {
     if (prevProps.clientid !== this.props.clientid) {
       console.log(this.props.clientid[0]);
       const data = this.props.clientid[0];
@@ -190,7 +178,7 @@ class EditableTable extends React.Component {
         data: data
       });
     }
-  }
+  }*/
   isEditing = record => record.id === this.state.editingKey;
 
   showModal = () => {
@@ -243,7 +231,17 @@ class EditableTable extends React.Component {
   edit(id) {
     this.setState({ editingKey: id });
   }
+  /*componentDidUpdate(prevProps,prevState){
+  if(prevProps.id!==this.state.data){
+    console.log(this.props.id);
+    this.setState({data:this.props.id,loading:false})
+  }
+}*/
+componentDidMount(){
+  console.log(this.props.client);
+  this.setState({ data: this.props.client, loading: false })
 
+}
   render() {
     const components = {
       body: {
@@ -268,7 +266,7 @@ class EditableTable extends React.Component {
     });
 
     return (
-      <EditableContext.Provider value={this.props.form}>
+      <EditableContext.Provider >
         <Table
           components={components}
           bordered
@@ -278,6 +276,7 @@ class EditableTable extends React.Component {
           pagination={{
             onChange: this.cancel
           }}
+          loading={this.state.loading}
         />
       </EditableContext.Provider>
     );

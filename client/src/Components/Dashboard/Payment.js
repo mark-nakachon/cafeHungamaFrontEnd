@@ -7,36 +7,34 @@ class Payment extends React.Component {
 
     componentDidMount() {
         //use try catch
-        axios.get(`https://jsonplaceholder.typicode.com/users`).then(res => {
-            this.setState({ data: res.data });
+        axios.get(`https://cafehungama.herokuapp.com/client/5d38a08cd561f03a18743855/notifications/payment`).then(res => {
+            this.setState({ data: res.data, loading:false });
 
-            console.log(this.state.data.req);
+            console.log(this.state.data);
         });
     }
     constructor(props) {
         super(props);
         this.state = {
+            loading: true,
             notifications: [],
             columns: [
                 {
                     title: "Notification",
-                    dataIndex: "name"
+                 //   dataIndex: "payment",
+                    key: "payment"
                 }
             ],
 
-            data: [
-                {
-                    username: ""
-                }
-            ]
+            data: []
         };
     }
 
     render() {
-        const { data } = this.state;
+        //const { data } = this.state.data;
         return (
             <div style={{ marginLeft: '20px', width: '40%' }}>
-                <Table columns={this.state.columns} dataSource={data} bordered size="small" />
+                <Table columns={this.state.columns} pagination={false} dataSource={this.state.data} bordered size="small" scroll={{ y: 200 }} loading={this.state.loading}/>
             </div>
         );
     }

@@ -1,48 +1,51 @@
 import React from "react";
-import { Table } from "antd";
+import { Table, Switch, Icon } from "antd";
+import axios from 'axios';
 
 class EnableVenue extends React.Component {
   constructor(props) {
     super(props);
     this.columns = [
-      { title: "Venue", dataIndex: "venue", key: "venue" },
+      { title: "Venue", dataIndex: "venueName", key: "venue" },
       {
         title: "Action",
-        dataIndex: "",
+        dataIndex: "status",
         key: "x",
         render: () => (
-          <span>
-            <a href="javascript:;">Disable</a> &nbsp;
-            <a href="javascript:;">Enable</a>
-          </span>
+          <Switch
+            checkedChildren={<Icon type="check" />}
+            unCheckedChildren={<Icon type="close" />}
+          />
         )
       }
     ];
     this.state = {
-      data: [
-        {
-          key: 1,
-          venue: "John Brown",
-          description:
-            "My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park."
-        }
-      ]
+      data: [],
+      loading: true
     };
   }
-  handleDisable = key => {
-    const dataSource = [...this.state.dataSource];
-    this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
-  };
-
+  componentDidMount() {
+    axios.get(
+      `https://cafehungama.herokuapp.com/client/5d09067224036b46e40f8d30/venues`
+    ).then(res => {
+      this.setState({ data: res.data,loading:false });
+    });
+  }
   render() {
     return (
       <Table
         pagination={false}
         columns={this.columns}
         expandedRowRender={record => (
-          <p style={{ margin: 0 }}>{record.description}</p>
+          <div>
+          <p style={{ margin: 0 }}>Location : {record.line1},{record.city},{record.state},{record.pinCode},{record.country}</p>
+          <p style={{ margin: 0 }}>Number Of Screens : {record.noOfScreens}</p>
+          <p style={{ margin: 0 }}>Venue Contact : {record.venueContact}</p>
+         <p style={{ margin: 0 }}>Ammenties : {record.amenties}</p> 
+          </div>
         )}
         dataSource={this.state.data}
+        loading={this.state.loading}
       />
     );
   }

@@ -4,15 +4,24 @@ import Payment from './Payment';
 import Request from './Request';
 import Eventsdone from './Eventsdone';
 import Cards from './Cards';
+import axios from 'axios';
 const { TabPane } = Tabs;
 
 class Dashboard extends React.Component {
-  state = { size: "small" };
+  state = { size: "small",
+            data: []        
+  };
 
   onChange = e => {
     this.setState({ size: e.target.value });
   };
-
+  componentDidMount(){
+    axios.get(`https://cafehungama.herokuapp.com/client/5d38a08cd561f03a18743855/dashboard/stats`)
+    .then(res=>{
+      this.setState ({ data: res.data});
+      console.log(this.state.data);
+    })
+  }
   render() {
     const { size } = this.state;
     return (
@@ -28,7 +37,7 @@ class Dashboard extends React.Component {
             <Request />
           </TabPane>
         </Tabs>
-        <Cards />
+        <Cards data={this.state.data}/>
       </div>
     );
   }

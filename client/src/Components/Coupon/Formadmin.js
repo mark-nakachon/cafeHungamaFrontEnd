@@ -52,6 +52,17 @@ class Form extends React.Component {
             />
           </label>
           &nbsp;&nbsp;
+          <label htmlFor="validity">
+            Voucher Validity: &nbsp;&nbsp;
+            <input
+              id="validity"
+              value={this.state.validity}
+              type="text"
+              name="validity"
+              onChange={this.handleInputChange}
+            />
+          </label>
+          &nbsp;&nbsp;
           <label htmlFor="description">
             Voucher Description: &nbsp;&nbsp;
             <input

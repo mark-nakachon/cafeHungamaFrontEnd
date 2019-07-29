@@ -1,6 +1,6 @@
 .event-card{
     float: left;
-    width: 370px; /* three containers (use 25% for four, and 50% for two, etc) */
+    width: 30%; /* three containers (use 25% for four, and 50% for two, etc) */
     padding: 15px; /* if you want space between the images */
     margin:auto;
     height: 200px;;

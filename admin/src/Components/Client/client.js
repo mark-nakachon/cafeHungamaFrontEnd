@@ -2,22 +2,20 @@ import React from "react";
 import { WrappedAdvancedSearchForm } from "./AdvancedSearchForm";
 import EditableFormTable from "./EditableTable";
 import axios from "axios";
-import { Spin } from "antd";
 class Client extends React.Component {
   state = {
-    selectedclient: [],
-    visible: true
+    selectedclient: []
   };
   componentDidMount() {
-    this.onTermSubmit(1);
+    this.onTermSubmit();
   }
-  onTermSubmit = async term => {
+  async onTermSubmit() {
     try {
-      this.setState({ visible: true });
       const response = await axios.get(
-        `https://jsonplaceholder.typicode.com/posts?userId=${term}`
+        `https://cafehungama.herokuapp.com/admin/clients?firstName=Tyagi`
       );
-      this.setState({ selectedclient: [response.data], visible: false });
+      this.setState({ selectedclient: response.data  });
+            console.log(this.state.selectedclient)
     } catch (e) {
       console.log(e);
     }
@@ -27,9 +25,8 @@ class Client extends React.Component {
       <div>
         <WrappedAdvancedSearchForm onSubmit={this.onTermSubmit} />
         <br />
-        <Spin spinning={this.state.visible} size="large" tip="Loading..." />
         <div>
-          <EditableFormTable clientid={this.state.selectedclient} />
+          <EditableFormTable client={this.state.selectedclient} />
         </div>
       </div>
     );
