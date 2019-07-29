@@ -8,4 +8,4 @@
 [build]
   base    = "user"
   command = "npm run build"
-  publish = "user/public"
+  publish = "user/build"
