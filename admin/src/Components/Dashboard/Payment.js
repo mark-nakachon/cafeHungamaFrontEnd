@@ -1,9 +1,7 @@
 import { Table, Popconfirm, Button } from "antd";
 import React from "react";
-
 import axios from "axios";
 
-//make a state for called response for accept and decline and pass that as parameter in axios.post
 class Payment extends React.Component {
   handleDelete = name => {
     const data = [...this.state.data];
@@ -11,25 +9,30 @@ class Payment extends React.Component {
   };
 
   componentDidMount() {
-    //use try catch
-    axios.get(`https://jsonplaceholder.typicode.com/users`).then(res => {
-      this.setState({ data: res.data });
-
-      console.log(this.state.data.req);
-    });
+    try {
+      const cols = this.state.columns.filter(col => col.show);
+      axios.get(`https://jsonplaceholder.typicode.com/users`).then(res => {
+        this.setState({ data: res.data, loading: false, columns: cols });
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
   constructor(props) {
     super(props);
     this.state = {
+      loading: true,
       notifications: [],
       columns: [
         {
           title: "Notification",
-          dataIndex: "name"
+          dataIndex: "name",
+          show: true
         },
 
         {
           title: "operation",
+          show: false,
           dataIndex: "operation",
           render: (text, record) =>
             this.state.data.length >= 1 ? (
@@ -46,22 +49,12 @@ class Payment extends React.Component {
                 >
                   <Button>Decline</Button>
                 </Popconfirm>
-                <Popconfirm
-                  title="Sure to send?"
-                  onConfirm={() => this.handleDelete(record.name)}
-                >
-                  <Button>Request to SuperAdmin </Button>
-                </Popconfirm>
               </span>
             ) : null
         }
       ],
 
-      data: [
-        {
-          username: ""
-        }
-      ]
+      data: []
     };
   }
 
@@ -69,7 +62,12 @@ class Payment extends React.Component {
     const { data } = this.state;
     return (
       <div>
-        <Table columns={this.state.columns} dataSource={data} bordered />
+        <Table
+          columns={this.state.columns}
+          dataSource={data}
+          bordered
+          loading={this.state.loading}
+        />
       </div>
     );
   }
