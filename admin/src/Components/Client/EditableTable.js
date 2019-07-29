@@ -60,28 +60,25 @@ class EditableTable extends React.Component {
     loading:true,
     columns: [
       {
-        title: "S. No",
-        dataIndex: "sno",
-        width: "5%",
-        editable: false
-      },
-      {
         title: "clientID",
         dataIndex: "_id", //clientid
         width: "5%",
-        editable: false
+        editable: false,
+        key: "_id"
       },
       {
         title: "First Name",
         dataIndex: "firstName",
         width: "10%",
-        editable: true
+        editable: true,
+        key: "name"
       },
       {
         title: "Last Name",
         dataIndex: "lastName",
         width: "10%",
-        editable: true
+        editable: true,
+        key: "name"
       },
       {
         title: "Email Id",
@@ -170,7 +167,7 @@ class EditableTable extends React.Component {
       }
     ]
   };
- /* componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     if (prevProps.clientid !== this.props.clientid) {
       console.log(this.props.clientid[0]);
       const data = this.props.clientid[0];
@@ -178,7 +175,7 @@ class EditableTable extends React.Component {
         data: data
       });
     }
-  }*/
+  }
   isEditing = record => record.id === this.state.editingKey;
 
   showModal = () => {
@@ -231,17 +228,6 @@ class EditableTable extends React.Component {
   edit(id) {
     this.setState({ editingKey: id });
   }
-  /*componentDidUpdate(prevProps,prevState){
-  if(prevProps.id!==this.state.data){
-    console.log(this.props.id);
-    this.setState({data:this.props.id,loading:false})
-  }
-}*/
-componentDidMount(){
-  console.log(this.props.client);
-  this.setState({ data: this.props.client, loading: false })
-
-}
   render() {
     const components = {
       body: {
@@ -266,17 +252,18 @@ componentDidMount(){
     });
 
     return (
-      <EditableContext.Provider >
+      <EditableContext.Provider value={this.props.form}>
         <Table
           components={components}
           bordered
           dataSource={this.state.data}
           columns={columns}
           rowClassName="editable-row"
+          rowKey="userName"
           pagination={{
             onChange: this.cancel
           }}
-          loading={this.state.loading}
+          loading={this.props.loading}
         />
       </EditableContext.Provider>
     );
