@@ -6,6 +6,6 @@
 # “publish” is the directory to publish (relative to the root of your repo).
 
 [build]
-  base    = "site"
-  command = "make"
-  publish = "site/public"
+  base    = "user"
+  command = "npm run build"
+  publish = "user/public"
