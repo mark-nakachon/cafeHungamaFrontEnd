@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import axios from 'axios';
 const myContext = React.createContext();
 
 class ContextProvider extends Component {
@@ -13,7 +13,9 @@ class ContextProvider extends Component {
             bookedSlots:[],
             selectedRowKeys: [], // Check here to configure the default column,
             selectedRows: [],
-            selectedData:[]
+            selectedData:[],
+            user: JSON.parse(localStorage.getItem("user")) || {},
+            token:localStorage.getItem("token") || ""
          }
          this.handleButtonClick = this.handleButtonClick.bind(this);
          this.handleLocationClick = this.handleLocationClick.bind(this);
@@ -105,6 +107,50 @@ class ContextProvider extends Component {
           //price: selectedRows.reduce((acc, curr) => acc + curr.price, 0)
         });
     }
+
+    signup = (userInfo) => {
+        return axios.post("localhost:5000/user/signup", userInfo)
+            .then(response => {
+                //const { user, token } = response.data
+                //localStorage.setItem("token", token);
+                //localStorage.setItem("user", JSON.stringify(user));
+                /*this.setState({
+                    user,
+                    token
+                });
+                // forward the response, just in case
+                // it's needed down the promise chain
+                return response;*/
+                console.log(response);
+            })
+    }
+
+    login = (credentials) => {
+        return axios.post("localhost:5000/user/login", credentials)
+            .then(response => {
+              /*  const { token, user } = response.data;
+                localStorage.setItem("token", token)
+                localStorage.setItem("user", JSON.stringify(user))
+                this.setState({
+                    user,
+                    token
+                });
+                */
+                /*// Don't forget to get this newly-logged-in user's todos!
+                this.getTodos();
+                return response;*/
+                console.log(response);
+            })
+    }
+
+    logout = ()=>{
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        this.setState({
+            user: {},
+            token: ""
+        })
+    }
     render() {
         return (
             <myContext.Provider value={{
@@ -114,7 +160,10 @@ class ContextProvider extends Component {
                 handleEventTypeClick:this.handleEventTypeClick,
                 onChange:this.onChange,
                 updateBookings:this.updateBookings,
-                onSelectChange:this.onSelectChange
+                onSelectChange:this.onSelectChange,
+                signup:this.signup,
+                login:this.login,
+                logout:this.logout
 
             }}>
                 {this.props.children}

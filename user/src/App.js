@@ -7,6 +7,7 @@ import Footer from "./components/Footer/Footer";
 import Checkout from "./BookTicket/Checkout";
 import {ContextProvider} from './Context';
 import BookSlots from "./BookTicket/BookSlots";
+import Login from './components/Login';
 function App () {
   return (
     <ContextProvider>
@@ -16,6 +17,7 @@ function App () {
         <Route path="/" exact component={Home} />
         <Route path="/event/:id" component={BookSlots} />
         <Route path="/checkout" component={Checkout} />
+        <Route path="/login" component={Login} />
       </Switch>
       <div className="Footer">
         <Footer />
