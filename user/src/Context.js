@@ -14,7 +14,6 @@ class ContextProvider extends Component {
             selectedRowKeys: [], // Check here to configure the default column,
             selectedRows: [],
             selectedData:[],
-            user: JSON.parse(localStorage.getItem("user")) || {},
             token:localStorage.getItem("token") || ""
          }
          this.handleButtonClick = this.handleButtonClick.bind(this);
@@ -109,7 +108,7 @@ class ContextProvider extends Component {
     }
 
     signup = (userInfo) => {
-        return axios.post("localhost:5000/user/signup", userInfo)
+        /*return axios.post("localhost:5000/user/signup", userInfo)
             .then(response => {
                 //const { user, token } = response.data
                 //localStorage.setItem("token", token);
@@ -121,12 +120,25 @@ class ContextProvider extends Component {
                 // forward the response, just in case
                 // it's needed down the promise chain
                 return response;*/
-                console.log(response);
-            })
-    }
+              //  console.log(response);
+            //})
+            console.log(userInfo);
+            return fetch(`http://localhost:5000/user/signup`,{
+                method:'POST',
+                headers:{
+                    "Content-Type": "application/json"
+                },
+                body:JSON.stringify(userInfo)
+                })
+                .then(response=>response.json())
+                .catch(err=>{
+                    console.log(err)
+                })
+
+            }
 
     login = (credentials) => {
-        return axios.post("localhost:5000/user/login", credentials)
+        /*return axios.post("https://localhost:5000/user/login", credentials)
             .then(response => {
               /*  const { token, user } = response.data;
                 localStorage.setItem("token", token)
@@ -139,15 +151,36 @@ class ContextProvider extends Component {
                 /*// Don't forget to get this newly-logged-in user's todos!
                 this.getTodos();
                 return response;*/
-                console.log(response);
+               // console.log(response);
+           // })
+           console.log(credentials);
+           return fetch(`http://localhost:5000/user/login`,{
+            method:'POST',
+            headers:{
+                "Content-Type": "application/json"
+            },
+            body:JSON.stringify(credentials)
             })
+            .then(response=>response.json())
+            .then(data=>{
+                const {token} = data;
+                localStorage.setItem("token",token);
+                this.setState({
+                    token
+                });
+                return data;
+
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+
     }
 
     logout = ()=>{
         localStorage.removeItem("user");
         localStorage.removeItem("token");
         this.setState({
-            user: {},
             token: ""
         })
     }
@@ -172,6 +205,26 @@ class ContextProvider extends Component {
     }
 }
 
+export const withContext = Component => {
+    return props => {
+        return (
+            <myContext.Consumer>
+                {
+                    globalState => {
+                        return (
+                            <Component
+                                {...globalState}
+                                {...props}
+                            />
+                        )
+                    }
+                }
+            </myContext.Consumer>
+        )
+    }
+}
+
 const ContextConsumer = myContext.Consumer;
 
-export {ContextConsumer,ContextProvider}
+
+export {ContextConsumer,ContextProvider,myContext}
