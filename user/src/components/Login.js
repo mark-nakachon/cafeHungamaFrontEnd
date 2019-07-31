@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
-
+import { Form, Icon, Input, Button, Checkbox,Row } from 'antd';
+import {withContext} from '../Context';
 class Login extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        console.log(this.props);
       }
     });
   };
@@ -15,7 +16,8 @@ class Login extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <Form onSubmit={this.handleSubmit} className="login-form">
+      <Row type="flex" justify="center">
+        <Form onSubmit={this.handleSubmit} className="login-form">
         <Form.Item>
           {getFieldDecorator('username', {
             rules: [{ required: true, message: 'Please input your username!' }],
@@ -42,17 +44,21 @@ class Login extends React.Component {
             valuePropName: 'checked',
             initialValue: true,
           })(<Checkbox>Remember me</Checkbox>)}
-          <a className="login-form-forgot" href="">
+          <a className="login-form-forgot" style={{float:'right'}} href="">
             Forgot password
           </a>
-          <Button type="primary" htmlType="submit" className="login-form-button">
+          <Button type="primary" htmlType="submit" className="login-form-button" style={{width:'100%'}}>
             Log in
           </Button>
-          Or <a href="">register now!</a>
+          Or <a href="" >register now!</a>
         </Form.Item>
       </Form>
+      </Row>
+
     );
   }
 }
 
-export default Login;
+const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(Login);
+
+export default withContext(WrappedNormalLoginForm);

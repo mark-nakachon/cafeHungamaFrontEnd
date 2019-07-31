@@ -172,6 +172,26 @@ class ContextProvider extends Component {
     }
 }
 
+export const withContext = Component => {
+    return props => {
+        return (
+            <myContext.Consumer>
+                {
+                    globalState => {
+                        return (
+                            <Component
+                                {...globalState}
+                                {...props}
+                            />
+                        )
+                    }
+                }
+            </myContext.Consumer>
+        )
+    }
+}
+
 const ContextConsumer = myContext.Consumer;
 
-export {ContextConsumer,ContextProvider}
+
+export {ContextConsumer,ContextProvider,myContext}
