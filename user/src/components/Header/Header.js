@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { Icon } from "antd";
 import { Menu } from "antd";
 import { nominalTypeHack } from "prop-types";
+import {Link} from 'react-router-dom';
+import {withContext} from '../../Context';
 const { SubMenu } = Menu;
 
 function Header(props) {
@@ -24,49 +26,72 @@ function Header(props) {
         <img src="" alt="LOGO" />
       </div>
       <div className="header-menu">
-        <Menu
-          onClick={handleClick}
-          selectedKeys={[current]}
-          mode="horizontal"
-          style = {{
-            background:'#292a2b',
-            color: 'white',
-            border:'none'
-          }}
-        >
-          <Menu.Item key="notification">
-            <Icon type="mail" />
-            Notifications
-          </Menu.Item>
 
-          <Menu.Item key="orders">
-            <Icon type="appstore" />
-            Offers
-          </Menu.Item>
+          {
+            !props.token?(
+              <Menu
+              onClick={handleClick}
+              selectedKeys={[current]}
+              mode="horizontal"
+              style = {{
+                background:'#292a2b',
+                color: 'white',
+                border:'none'
+              }}
+            >
+              <Menu.Item key="login">
+                <div>
+                <Icon type="login" />
+                <Link to="/login">Login</Link>
+                </div>
+              </Menu.Item>
+              <Menu.Item key="signup">
+                <div>
+                <Icon type="login" />
+                <Link to="/signup">Sign Up</Link>
+                </div>
+              </Menu.Item>
+            </Menu>
 
-          <Menu.Item key="login">
-            <Icon type="login" />
-            Login
-          </Menu.Item>
-
-          <SubMenu
-            title={
-              <span className="submenu-title-wrapper">
-                <i className="fa fa-user-circle" aria-hidden="true" />
-              </span>
-            }
-          >
-            <Menu.Item key="setting:1">Wallet</Menu.Item>
-            <Menu.Item key="setting:2">My Profile</Menu.Item>
-            <Menu.Item key="setting:3">My Orders</Menu.Item>
-            <Menu.Item key="setting:4">Past Events</Menu.Item>
-            <Menu.Item key="setting:5">Support</Menu.Item>
-            <Menu.Item key="setting:6">Newsfeed</Menu.Item>
-          </SubMenu>
-        </Menu>
+            ):(
+              <Menu
+              onClick={handleClick}
+              selectedKeys={[current]}
+              mode="horizontal"
+              style = {{
+                background:'#292a2b',
+                color: 'white',
+                border:'none'
+              }}
+            >
+              <Menu.Item key="notification">
+              <Icon type="mail" />
+              Notifications
+              </Menu.Item>
+              <Menu.Item key="orders">
+              <Icon type="appstore" />
+              Offers
+              </Menu.Item>
+              <SubMenu
+              title={
+                <span className="submenu-title-wrapper">
+                  <i className="fa fa-user-circle" aria-hidden="true" />
+                </span>
+              }
+             >
+              <Menu.Item key="setting:1">Wallet</Menu.Item>
+              <Menu.Item key="setting:2">My Profile</Menu.Item>
+              <Menu.Item key="setting:3">My Orders</Menu.Item>
+              <Menu.Item key="setting:4">Past Events</Menu.Item>
+              <Menu.Item key="setting:5">Support</Menu.Item>
+              <Menu.Item key="setting:6">Newsfeed</Menu.Item>
+              </SubMenu>
+           </Menu>
+            )
+          }
       </div>
     </div>
   );
 }
 
-export default Header;
+export default withContext(Header);
