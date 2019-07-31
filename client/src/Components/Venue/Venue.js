@@ -6,7 +6,6 @@ import Axios from "axios";
 class Venue extends Component {
   state = {
     visible: false,
-    visibleDetails: false,
     data : []
   };
 
@@ -37,11 +36,6 @@ class Venue extends Component {
     });
   };
 
-  cardClicked = e => {
-    this.showModalDetails();
-    console.log(e.target);
-  };
-
   renderData = venues => {
     if(venues.length>0)
     return venues.map(venue => {
@@ -58,10 +52,9 @@ class Venue extends Component {
               border: "1px solid black",
               margin: "5px"
             }}
-            onClick={this.cardClicked}
-          > <div className="vimage">
-              {venue.image}
-          </div>
+          > {/* <div className="vimage">
+            <img src={venue.image} />
+          </div> */}
             <div className="vdetail">
               <h4>Name:{venue.venueName}</h4>
               <h4>Address:{venue.line1},{venue.city},{venue.state}</h4>
@@ -69,7 +62,7 @@ class Venue extends Component {
               <h4>Screens:{venue.noOfScreens}</h4>
               <h4>Amenties:{venue.amenties}</h4>
               <h4>Contact:{venue.venueContact}</h4>
-              <h4>Capacity:{venue.maxCapacity}</h4>
+              <h4>Capacity:{venue.maxcapacity}</h4>
             </div>
           </Card.Grid>
         </div>
@@ -91,25 +84,7 @@ class Venue extends Component {
     });
     
   }
-  showModalDetails = () => {
-    this.setState({
-      visibleDetails: true
-    });
-  };
 
-  handleOkDetails = e => {
-    console.log(e);
-    this.setState({
-      visibleDetails: false
-    });
-  };
-
-  handleCancelDetails = e => {
-    console.log(e);
-    this.setState({
-      visibleDetails: false
-    });
-  };
   render() {
     return (
       <div>
@@ -143,14 +118,6 @@ class Venue extends Component {
             </Modal>
           </Col>
         </Row>
-        <div>
-          <Modal
-            title="Venue Detail"
-            visible={this.state.visibleDetails}
-            onOk={this.handleOkDetails}
-            onCancel={this.handleCancelDetails}
-          />
-        </div>
       </div>
     );
   }

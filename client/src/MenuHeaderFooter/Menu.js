@@ -32,17 +32,14 @@ class RouterApp extends React.Component {
       <Router>
         <Layout style={{ minHeight: "100vh" }}>
           <Sider
-            collapsible
-            collapsed={this.state.collapsed}
-            onCollapse={this.onCollapse}
-          >
+            >
             <div style={{ color: "white" }}>
               <br />
               <Avatar size="large" icon="user" />
               &nbsp;
               <span>Welcome, Client</span>
             </div>
-            <Menu theme="dark" defaultSelectedKeys={["1"]} mode="vertical">
+            <Menu theme="dark"  mode="vertical">
               <Menu.Item key="1">
                 <Icon type="home" />
                 <span>Dashboard</span>
@@ -126,9 +123,10 @@ class RouterApp extends React.Component {
               <Route path="/support" component={Support} />
               <Route path="/venue" component={Venue} />
             </Content>
-            <Footer />
+           
           </Layout>
         </Layout>
+        <Footer />
       </Router>
     );
   }
