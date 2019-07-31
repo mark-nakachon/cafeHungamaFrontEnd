@@ -15,7 +15,9 @@ const { Header, Content, Sider } = Layout;
 
 class RouterApp extends React.Component {
   state = {
-    collapsed: false
+    collapsed: false,
+    sider: "1",
+    header: ""
   };
 
   onCollapse = collapsed => {
@@ -24,6 +26,18 @@ class RouterApp extends React.Component {
   toggle = () => {
     this.setState({
       collapsed: !this.state.collapsed
+    });
+  };
+  handleClick = e => {
+    this.setState({
+      sider: "",
+      header: e.key
+    });
+  };
+  handlevertical = e => {
+    this.setState({
+      sider: e.key,
+      header: ""
     });
   };
 
@@ -39,14 +53,19 @@ class RouterApp extends React.Component {
               &nbsp;
               <span>Welcome, Client</span>
             </div>
-            <Menu theme="dark"  mode="vertical">
+            <Menu
+              theme="dark"
+              selectedKeys={[this.state.sider]}
+              defaultSelectedKeys={["6"]}
+              onSelect={this.handlevertical}
+            >
               <Menu.Item key="1">
                 <Icon type="home" />
                 <span>Dashboard</span>
                 <Link to="/" />
               </Menu.Item>
               <Menu.Item key="2">
-                <Icon type="team" />
+                <Icon type="environment" />
                 <span>Manage Venue</span>
                 <Link to="/venue" />
               </Menu.Item>
@@ -88,9 +107,10 @@ class RouterApp extends React.Component {
                 />{" "}
                 LOGO
                 <Menu
-                  defaultSelectedKeys={[""]}
                   mode="horizontal"
                   style={{ float: "right" }}
+                  onSelect={this.handleClick}
+                  selectedKeys={[this.state.header]}
                 >
                   <Menu.Item key="1">
                     <Icon type="notification" />
