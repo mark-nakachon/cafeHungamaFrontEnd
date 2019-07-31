@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import { Icon } from "antd";
 import { Menu } from "antd";
 import { nominalTypeHack } from "prop-types";
+import {Button} from 'antd';
 import {Link} from 'react-router-dom';
 import {withContext} from '../../Context';
+
 const { SubMenu } = Menu;
 
 function Header(props) {
@@ -86,6 +88,10 @@ function Header(props) {
               <Menu.Item key="setting:5">Support</Menu.Item>
               <Menu.Item key="setting:6">Newsfeed</Menu.Item>
               </SubMenu>
+              <Menu.Item key="logout">
+              <Icon type="logout" />
+                <Button type="link" style={{color:'white'}} onClick={()=>props.logout()}>Logout</Button>
+              </Menu.Item>
            </Menu>
             )
           }
