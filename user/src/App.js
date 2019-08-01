@@ -9,6 +9,7 @@ import {ContextProvider} from './Context';
 import BookSlots from "./BookTicket/BookSlots";
 import Login from './components/Login';
 import Signup from "./components/Signup";
+import ProtectedRoute from './components/ProtectedRoute';
 function App () {
   return (
     <ContextProvider>
@@ -16,8 +17,8 @@ function App () {
       <Header />
       <Switch>
         <Route path="/" exact component={Home} />
-        <Route path="/event/:id" component={BookSlots} />
-        <Route path="/checkout" component={Checkout} />
+        <ProtectedRoute path="/event/:id" component={BookSlots} />
+        <ProtectedRoute path="/checkout" component={Checkout} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
       </Switch>

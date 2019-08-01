@@ -11,6 +11,7 @@ class Signup extends React.Component {
         console.log('Received values of form: ', values);
         this.props.signup(values).then(
             (data)=>{
+                    console.log(data);
                     this.props.history.push('/login');
                     message.success('You have been signup succesfully please login', 2);
             }
@@ -82,13 +83,9 @@ class Signup extends React.Component {
             valuePropName: 'checked',
             initialValue: true,
           })(<Checkbox>Remember me</Checkbox>)}
-          <a className="login-form-forgot" style={{float:'right'}} href="">
-            Forgot password
-          </a>
           <Button type="primary" htmlType="submit" className="login-form-button" style={{width:'100%'}}>
-            Log in
+            Signup
           </Button>
-          Or <a href="" >Register now!</a>
         </Form.Item>
       </Form>
       </Row>
