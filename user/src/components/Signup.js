@@ -18,7 +18,17 @@ class Signup extends React.Component {
         )
       }
     });
+  }
+
+  compareToFirstPassword = (rule, value, callback) => {
+    const { form } = this.props;
+    if (value && value !== form.getFieldValue('password')) {
+      callback('Two passwords that you enter is inconsistent!');
+    } else {
+      callback();
+    }
   };
+
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -77,6 +87,23 @@ class Signup extends React.Component {
               placeholder="Password"
             />,
           )}
+        </Form.Item>
+        <Form.Item  hasFeedback>
+          {getFieldDecorator('confirm', {
+            rules: [
+              {
+                required: true,
+                message: 'Please confirm your password!',
+              },
+              {
+                validator: this.compareToFirstPassword,
+              },
+            ],
+          })(<Input
+            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            type="password"
+            placeholder="Confirm Password"
+          />)}
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('remember', {

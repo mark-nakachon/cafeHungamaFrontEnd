@@ -123,7 +123,7 @@ class ContextProvider extends Component {
               //  console.log(response);
             //})
             console.log(userInfo);
-            return fetch(`http://localhost:5000/user/signup`,{
+            return fetch(`https://cafehungama.herokuapp.com/user/signup`,{
                 method:'POST',
                 headers:{
                     "Content-Type": "application/json"
@@ -154,7 +154,7 @@ class ContextProvider extends Component {
                // console.log(response);
            // })
            console.log(credentials);
-           return fetch(`http://localhost:5000/user/login`,{
+           return fetch(`https://cafehungama.herokuapp.com/user/login`,{
             method:'POST',
             headers:{
                 "Content-Type": "application/json"
