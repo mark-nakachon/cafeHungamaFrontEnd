@@ -17,7 +17,7 @@ function App () {
       <Header />
       <Switch>
         <Route path="/" exact component={Home} />
-        <ProtectedRoute path="/event/:id" component={BookSlots} />
+        <Route path="/event/:id" component={BookSlots} />
         <ProtectedRoute path="/checkout" component={Checkout} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
