@@ -6,7 +6,6 @@ import API from "../../api/API";
 class Venue extends Component {
   state = {
     visible: false,
-    visibleDetails: false,
     data: []
   };
 
@@ -71,25 +70,7 @@ class Venue extends Component {
       visible: false
     });
   };
-  showModalDetails = () => {
-    this.setState({
-      visibleDetails: true
-    });
-  };
 
-  handleOkDetails = e => {
-    console.log(e);
-    this.setState({
-      visibleDetails: false
-    });
-  };
-
-  handleCancelDetails = e => {
-    console.log(e);
-    this.setState({
-      visibleDetails: false
-    });
-  };
   render() {
     return (
       <div>
