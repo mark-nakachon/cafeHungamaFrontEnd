@@ -46,10 +46,7 @@ class RouterApp extends React.Component {
       <Router>
         <Layout style={{ minHeight: "100vh" }}>
           <Sider
-            collapsible
-            collapsed={this.state.collapsed}
-            onCollapse={this.onCollapse}
-          >
+            >
             <div style={{ color: "white" }}>
               <br />
               <Avatar size="large" icon="user" />
@@ -146,9 +143,10 @@ class RouterApp extends React.Component {
               <Route path="/support" component={Support} />
               <Route path="/venue" component={Venue} />
             </Content>
-            <Footer />
+           
           </Layout>
         </Layout>
+        <Footer />
       </Router>
     );
   }

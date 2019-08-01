@@ -1,0 +1,48 @@
+.footer-bg{
+    background: #001529;;
+    width:100%;
+    height: 290px;
+    padding-top:3%;
+    padding-left: 15%;
+    padding-right: 8%;
+}
+.cright{
+    color:#96948d;
+    text-align: center;
+}
+.tandc{
+    color:#b0ada4;
+    font-size: 15px;
+}
+.aboutus{
+    color:#b0ada4;
+    font-size: 15px;
+}
+.contactus{
+    color:#b0ada4;
+    font-size: 15px;
+}
+.faq{
+    color:#b0ada4;
+    font-size: 15px;
+}
+.info{
+    float:right;
+    color:#b0ada4;
+    font-size: 15px;
+}
+.icons-list{
+    margin-left: 43%;
+    font-size: 40px;
+}
+.pws{
+    color:white;
+    font-size: 20px;
+}
+.btn{
+    background: red;
+    color:white;
+}
+.anticon {
+    color: white;
+}

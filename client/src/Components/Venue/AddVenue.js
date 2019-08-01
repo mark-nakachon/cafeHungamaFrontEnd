@@ -1,26 +1,87 @@
 import React from 'react';
-import {Form,Button,Upload,Icon,Checkbox,Row,Col,Input} from 'antd';
+import {Form,Button,Select,Checkbox,Row,Col,Input} from 'antd';
 import './Modal.css';
+import API from '../../api/API';
+
+const { Option } = Select;
+const CheckboxGroup = Checkbox.Group;
+let childrenloc = [];
+let childrencity = []; 
+let childrenamenties = []; 
 
 class Demo extends React.Component {
   state ={
     venueName:"",
-    venueContact:"",
+    venueContact:"",  
     city:"",
     state:"",
     pinCode:"",
     noOfScreens: "",
     line1:"",
-    country:"",
     landmark:"",
     eventType:"",
-    amenties:"",
-    image:""
+    amenities:[],
+    image:"",
+    locality:"",
+    localities:[],
+    cities: [],
+    country: "India",
+    amentiess:[]      // retrieving amenties from superadmin api
+  }
+  
+  componentDidMount(){
+    API
+    .get(`/superadmin/superadminid/localities/get`)
+    .then(res=>{
+      this.setState({ localities: res.data[0].locality});
+    //  for (let i = 0; i < this.state.localities.length; i++) {
+        childrenloc.push(<Option key={this.state.localities}>{this.state.localities}</Option>);
+    //  }
+    }
+    );
+    //console.log(this.state.localities);
+    API.get(`/user/cities/get`
+    ).then(res =>{
+      this.setState({cities:res.data[0].city})
+    //  console.log(res.data[0]);
+      childrencity.push(<Option key={this.state.cities}>{this.state.cities}</Option>);
+
+    });
+    API.get(`/user/amenities/get`
+    ).then(res =>{
+      /* this.setState({amentiess: res.data.amenity_name})
+      console.log(res.data.amenity_name);
+      console.log(this.state.amentiess); */
+      res.data.map(response=>{
+        childrenamenties.push(response.amenity_name)   
+      })
+      this.setState({amentiess:childrenamenties})
+     })
   }
   onInputChange =e=>{
     this.setState({
       [e.target.name]: e.target.value
     });
+    //console.log(this.state.amenties);
+  }
+  onAmentiesChange =e =>{
+    //console.log(e);
+   this.setState({
+     amenities: e//.target.checked ? this.state.amentiess.amenity_name : []
+   }//,()=>console.log(this.state.amenties)
+   )
+  }
+  onCityChange = e => {
+    this.setState({
+      city: e
+    });
+    console.log(e);
+  }
+  onLocalityChange = e =>{
+    this.setState ({
+      locality:e
+    });
+    console.log(e);
   }
   handleSubmit = e => {
     e.preventDefault();
@@ -34,15 +95,16 @@ class Demo extends React.Component {
       venueName: this.state.venueName,
       venueContact: this.state.venueContact,
       city: this.state.city,
-      state: this.state.state,
       line1: this.state.line1,
       pinCode: this.state.pinCode,
       noOfScreens: this.state.noOfScreens,
-      country: this.state.country,
       landmark: this.state.landmark,
       eventType: this.state.eventType,
-      amenties: this.state.amenties,
-      image: this.state.image
+      amenities: this.state.amenities,
+      image: this.state.image,
+      locality: this.state.locality,
+      country: "India",
+      state: this.state.city
     })
     this.props.onSubmit(data);
   };
@@ -111,7 +173,9 @@ class Demo extends React.Component {
         })(<Input placeholder="Please input your line 1" name="line1" onChange={this.onInputChange}/>)}
         </Form.Item>
 
-        <Form.Item label="City">
+            
+
+        <Form.Item label="City/State">
         {getFieldDecorator('city', {
             rules: [
               {
@@ -119,29 +183,32 @@ class Demo extends React.Component {
                 message: 'Please input your city',
               },
             ],
-        })(<Input placeholder="Please input your city" name="city" onChange={this.onInputChange}/>)}
+        })(/*<Input placeholder="Please input your city" name="city" onChange={this.onInputChange}/>*/
+          <Select placeholder="Select a city/state" style={{ width: 150 }} onChange={this.onCityChange}>
+            {childrencity}
+          </Select>
+        )}
         </Form.Item>
 
-        <Form.Item label="State">
-        {getFieldDecorator('state', {
-            rules: [
-              {
-                required: true,
-                message: 'Please input your state',
-              },
-            ],
-        })(<Input placeholder="Please input your state" name="state" onChange={this.onInputChange}/>)}
-        </Form.Item>
+            <Form.Item label="Locality">
+              {getFieldDecorator('locality', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please input line1',
+                  },
+                ],
+              })//(<Input placeholder="Please input your locality" name="locality" onChange={this.onInputChange} />)
+                (<Select placeholder="Select a locality" style={{ width: 150 }} onChange={this.onLocalityChange}>
+                  {childrenloc}
+                </Select>)
+              }
+            </Form.Item>
 
         <Form.Item label="Country">
         {getFieldDecorator('country', {
-            rules: [
-              {
-                required: true,
-                message: 'Please input your country',
-              },
-            ],
-        })(<Input placeholder="Please input your country" name="country" onChange={this.onInputChange}/>)}
+            initialValue:"India"
+        })(<Input  name="country" disabled />)}
         </Form.Item>
 
         <Form.Item label="Pin code">
@@ -152,7 +219,7 @@ class Demo extends React.Component {
                 message: 'Please input your pin code',
               },
             ],
-          })(<Input pattern="[0-9]{6}" maxLength={6} name="pinCode" onChange={this.onInputChange}/>)}
+          })(<Input pattern="[0-9]{6}" maxLength={6} name="pinCode" placeholder="Please input your pincode" onChange={this.onInputChange}/>)}
         </Form.Item>
 
 
@@ -174,41 +241,18 @@ class Demo extends React.Component {
          <Col span={12}>
 
         <Form.Item label="Select Amenties">
-          {getFieldDecorator('amenties')(
-            <Checkbox.Group style={{ width: '100%' }}>
-              <Row>
-                <Col span={8}>
-                  <Checkbox value="A">A</Checkbox>
-                </Col>
-                <Col span={8}>
-                  <Checkbox value="B">
-                    B
-                  </Checkbox>
-                </Col>
-                <Col span={8}>
-                  <Checkbox value="C">C</Checkbox>
-                </Col>
-                <Col span={8}>
-                  <Checkbox value="D">D</Checkbox>
-                </Col>
-                <Col span={8}>
-                  <Checkbox value="E">E</Checkbox>
-                </Col>
-              </Row>
-            </Checkbox.Group>,
-          )}
+          {getFieldDecorator('amenities')
+            (<CheckboxGroup style={{ width: '100%' }} options={this.state.amentiess} onChange={this.onAmentiesChange}>
+              </CheckboxGroup>)}
         </Form.Item>
 
-        <Form.Item label="Upload Image" >
+        <Form.Item label="Upload Image" disabled>
           {getFieldDecorator('upload', {
-            valuePropName: 'fileList',
+            valuePropName: 'image',
             getValueFromEvent: this.normFile,
           })(
-            <Upload name="logo" action="/upload.do" listType="picture">
-              <Button>
-                <Icon type="upload" /> Click to upload
-              </Button>
-            </Upload>,
+            <Input type="file" name="image" disabled accept="image/jpg,image/png"/>
+              
           )}
         </Form.Item>
         </Col>
