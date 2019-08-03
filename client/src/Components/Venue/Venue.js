@@ -6,12 +6,13 @@ import API from "../../api/API";
 class Venue extends Component {
   state = {
     visible: false,
+    loading: true,
     data: []
   };
 
   componentDidMount() {
     API.get(`/client/5d09067224036b46e40f8d30/venues`).then(res => {
-      this.setState({ data: res.data });
+      this.setState({ data: res.data, loading: false });
     });
   }
   showModal = () => {
@@ -60,15 +61,13 @@ class Venue extends Component {
   };
   onSubmit = props => {
     console.log(props);
-    API.post(`/client/5d09067224036b46e40f8d30/venues`, props[0]).then(function
-      response
-    ) {
-      console.log(response);
-      console.log(response.data);
-    });
-    this.setState({
-      visible: false
-    });
+    API.post(`/client/5d09067224036b46e40f8d30/venues`, props[0]).then(
+      response => {
+        this.setState({
+          visible: false
+        });
+      }
+    );
   };
 
   render() {
@@ -81,7 +80,9 @@ class Venue extends Component {
             </Tag>
             <Row />
             <Col>
-              <Card>{this.renderData(this.state.data)}</Card>
+              <Card loading={this.state.loading}>
+                {this.renderData(this.state.data)}
+              </Card>
             </Col>
             <br />
             <Row>
