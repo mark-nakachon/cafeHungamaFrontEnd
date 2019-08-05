@@ -11,6 +11,7 @@ import {
   Checkbox,
   Button,
   AutoComplete,
+  message
 } from 'antd';
 
 const { Option } = Select;
@@ -25,18 +26,44 @@ class Profile extends React.Component {
       address:'',
       contact:''
   }
-  handleSubmit = e => {
+  handleSubmit = async e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
-       }
+        const bearer = 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVkNDFiY2Q2MzZhYWU3Mzg0MTZmZGQxMSIsImVtYWlsIjoiaGFyaXNoY2hlbm51cGF0aTJAZ21haWwuY29tIn0sImlhdCI6MTU2NDY2MDE4MX0.bO90AbCLVJY3P9UPX3x8WKYTl4FW3Glt-XTMeieyifg';
+        fetch(`http://localhost:5000/user/update/5d41b3aa36aae738416fdd07`,{
+          method:'PUT',
+          headers:{
+              'Authorization':bearer,
+              "Content-Type": "application/json"
+          },
+          body:JSON.stringify(values)
+      })
+      .then(response=>response.json())
+      .then(data=>{
+          console.log(data);
+          this.setState({loading:false,
+          firstName:data.firstName,
+          lastName:data.lastName,
+          userName:data.userName,
+          email:data.email,
+          city:data.city,
+          address:data.address,
+          contact:data.contact
+          })
+          message.success('Profile succesfully updated',3)
+      }
+      )
+      .catch(err=>{
+          console.log(err);
+      })
+      }
     }
     )
     };
   componentDidMount(){
     const bearer = 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVkNDFiY2Q2MzZhYWU3Mzg0MTZmZGQxMSIsImVtYWlsIjoiaGFyaXNoY2hlbm51cGF0aTJAZ21haWwuY29tIn0sImlhdCI6MTU2NDY2MDE4MX0.bO90AbCLVJY3P9UPX3x8WKYTl4FW3Glt-XTMeieyifg';
-    fetch(`http://localhost:5000/user/profile/:id`,{
+    fetch(`http://localhost:5000/user/read/5d41b3aa36aae738416fdd07`,{
         method:'GET',
         headers:{
             'Authorization':bearer
@@ -44,6 +71,7 @@ class Profile extends React.Component {
     })
     .then(response=>response.json())
     .then(data=>{
+        console.log(data);
         this.setState({loading:false,
         firstName:data.firstName,
         lastName:data.lastName,
@@ -92,7 +120,7 @@ class Profile extends React.Component {
             rules: [{ required: true, message: 'Please input your firstName!' }],
             initialValue:firstName
             })(
-            <Input
+            <Input size='large'
               prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
               placeholder="First Name"
 
@@ -102,8 +130,9 @@ class Profile extends React.Component {
         <Form.Item label="Last Name">
           {getFieldDecorator('lastName', {
             rules: [{ required: true, message: 'Please input your last Name!' }],
+            initialValue:lastName
           })(
-            <Input
+            <Input size='large'
               prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
               placeholder="Last Name"
             />,
@@ -112,8 +141,9 @@ class Profile extends React.Component {
         <Form.Item label="User Name">
           {getFieldDecorator('userName', {
             rules: [{ required: true, message: 'Please input your user Name!' }],
+            initialValue:userName
           })(
-            <Input
+            <Input size='large'
               prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
               placeholder="User Name"
             />,
@@ -122,8 +152,9 @@ class Profile extends React.Component {
         <Form.Item label="Email">
           {getFieldDecorator('email', {
             rules: [{ required: true, message: 'Please input your email!' }],
+            initialValue:email
           })(
-            <Input
+            <Input size='large'
               prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="email"
               placeholder="Email"
@@ -133,8 +164,9 @@ class Profile extends React.Component {
         <Form.Item label="City">
           {getFieldDecorator('city', {
             rules: [{ required: true, message: 'Please enter your city!' }],
+            initialValue:city
           })(
-            <Input
+            <Input size='large'
               prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="text"
               placeholder="City"
@@ -142,10 +174,11 @@ class Profile extends React.Component {
           )}
         </Form.Item>
         <Form.Item label="Address">
-          {getFieldDecorator('Address', {
+          {getFieldDecorator('address', {
             rules: [{ required: true, message: 'Please input your Address!' }],
+            initialValue:address
           })(
-            <Input
+            <Input size='large'
               prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="text"
               placeholder="Address"
@@ -156,8 +189,9 @@ class Profile extends React.Component {
         <Form.Item label="Contact number">
           {getFieldDecorator('contact', {
             rules: [{ required: true, message: 'Please input your Contact number!' }],
+            initialValue:contact
           })(
-            <Input
+            <Input size='large'
               prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="number"
               placeholder="Contact no"
