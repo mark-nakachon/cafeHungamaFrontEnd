@@ -6,7 +6,7 @@ import { Button, notification } from 'antd';
 const myContext = React.createContext();
 
 
-export const googleVM = 'http://35.234.217.67:80';
+export const googleVM = 'https://chbackend.herokuapp.com';
 
 const close = () => {
     console.log(
